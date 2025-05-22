@@ -110,11 +110,19 @@ layout: section
 - Dev-Tools Integration
 <!-- Component inspection, performance profiling, and more. -->
 
-Overall: Improved developer experience
+---
+layout: center
+---
+
+🔑 Improved developer experience
+
+<!-- Highlight HMR/Fast Refresh as the piece we are going to focus on -->
 
 ---
 layout: center
 ---
+
+<!-- Go through the diagram step by step -->
 
 ```mermaid {scale: 0.6}
 sequenceDiagram
@@ -134,6 +142,39 @@ sequenceDiagram
   end
   b ->> b: Render updates
 ```
+
+---
+
+Code Example
+
+```javascript
+const protocol = window.location.protocol === "http:" ? "ws://" : "wss://";
+const address = protocol + window.location.host + window.location.pathname + "ws";
+const socket = new WebSocket(address);
+socket.addEventListener("message", (event) => {
+  switch (event.data) {
+    case "reload":
+      window.location.reload();
+      break;
+    default:
+      console.warn(`Unknown message: ${event.data}`);
+      break;
+  }
+});
+console.log("Live Reload Enabled 🔥");
+```
+
+<!-- https://github.com/Ethan-Arrowood/live-reload/blob/9428045a32d9e5cbd3161918093fe633ea13eac8/packages/live-reload/live-reload-script.html#L4 
+  Discuss how this is a simplified version of the code we use to handle live reload but in essence this is how it works!
+-->
+
+---
+
+<!-- Then, go back to how Harper is an integrated platform with its own HTTP and WebSocket support -->
+
+<!-- Highlight the Next.js Server upgrade handler hook -->
+
+<!-- We have to somehow hook into the existing websocket server and pass through the websocket upgrade and subsequent messages -->
 
 ---
 transition: slide-down
