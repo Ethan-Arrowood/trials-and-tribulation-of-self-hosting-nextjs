@@ -91,6 +91,8 @@ layout: section
 
 # 🧑‍💻 Dev Mode Support
 
+Dev Mode === Developer Experience
+
 <!-- 
   As discussed in the previous section, Harper is a complete, full-stack application platform.
   As we integrated Next.js we wanted to ensure a quality developer experience. 
@@ -98,31 +100,67 @@ layout: section
 -->
 
 ---
+layout: center
+transition: slide-up
+---
 
-## What is _Dev Mode_?
+# What is _Dev Mode_?
 
-- Hot Reloading
-<!-- Instant feedback loop where code changes are reflected in the browser without a full page reload. -->
-- Fast Refresh
-<!-- Preserves component state throughout refreshes, allowing for a smoother development experience. -->
-- Error Overlay
-<!-- Displays errors and warnings in the browser, making it easier to debug issues. -->
-- Dev-Tools Integration
-<!-- Component inspection, performance profiling, and more. -->
+---
+layout: center
+transition: slide-up
+---
+
+# Hot Module Reloading
+
+_Instant feedback loop where code changes are reflected in the browser without a full page reload._
+
+---
+layout: center
+transition: slide-up
+---
+
+# Fast Refresh
+
+_Preserves component state throughout refreshes, allowing for a smoother development experience._
+
+---
+layout: center
+transition: slide-up
+---
+
+# Error Overlay
+
+_Displays errors and warnings in the browser, making it easier to debug issues._
+
+---
+layout: center
+transition: slide-left
+---
+
+# Dev-Tools Integration
+
+_Component inspection, performance profiling, and more._
 
 ---
 layout: center
 ---
 
-🔑 Improved developer experience
+# 🔑 Improved developer experience
 
-<!-- Highlight HMR/Fast Refresh as the piece we are going to focus on -->
+<!-- Again, the key to all of this is improving developer experience -->
 
 ---
 layout: center
 ---
 
-<!-- Go through the diagram step by step -->
+# 🔎 Hot Module Reloading
+
+<!-- Today, we are going to focus on the Hot Module Reloading part and how we leveraged Harper's server middleware api to forward the necessary WebSocket requests through to the Next.js dev server -->
+
+---
+layout: center
+---
 
 ```mermaid {scale: 0.6}
 sequenceDiagram
@@ -143,44 +181,119 @@ sequenceDiagram
   b ->> b: Render updates
 ```
 
+<!-- Go through the diagram step by step. Starting from the top -->
+
+---
+layout: center
 ---
 
-Code Example
+# 🕸️ The WebSocket API 🔌
+
+---
+
+- RFC 6455 (December 2011)
+- Enables real-time communication **without** traditional HTTP polling
+- Client/Server architecture
+- TCP based & HTTP Upgrade mechanism
+  1. Client sends HTTP request with `Upgrade: websocket` header
+  2. Server responds with `101 Switching Protocols`
+  3. Connection is established
+  4. Data can be sent in both directions
+
+<!-- Note: maybe diagram here? Important to describe that WS works via HTTP Upgrade Request and then the two way connection is established -->
+
+---
+layout: center
+---
+
+# Remember: Harper is an integrated platform
+It has its own HTTP and WebSocket support.
+
+---
+
+# Harper Server API
 
 ```javascript
-const protocol = window.location.protocol === "http:" ? "ws://" : "wss://";
-const address = protocol + window.location.host + window.location.pathname + "ws";
-const socket = new WebSocket(address);
-socket.addEventListener("message", (event) => {
-  switch (event.data) {
-    case "reload":
-      window.location.reload();
-      break;
-    default:
-      console.warn(`Unknown message: ${event.data}`);
-      break;
-  }
-});
-console.log("Live Reload Enabled 🔥");
+// Custom TCP socket handling (similar to `net.createServer`)
+server.socket(connectionListener, options);
+
+// Custom HTTP request handling 
+server.http(requestListener, options);
+
+// Custom HTTP upgrade handling
+server.upgrade(upgradeListener, options);
+
+// Custom WebSocket connection handling
+server.ws(webSocketConnectionListener, options);
 ```
 
-<!-- https://github.com/Ethan-Arrowood/live-reload/blob/9428045a32d9e5cbd3161918093fe633ea13eac8/packages/live-reload/live-reload-script.html#L4 
-  Discuss how this is a simplified version of the code we use to handle live reload but in essence this is how it works!
--->
+These methods allow developers to define custom handlers for various networking operations, enabling the creation of custom protocols or the integration of existing ones.
+
+<!-- Similar to other Node middlewares, the Harper server API allows you to define custom handlers for specific networking operations -->
 
 ---
 
-<!-- Then, go back to how Harper is an integrated platform with its own HTTP and WebSocket support -->
+# Next.js Server API
 
-<!-- Highlight the Next.js Server upgrade handler hook -->
+Most users only ever interact with Next.js through the `next` CLI (i.e. `next dev`, `next build`, `next start`).
 
-<!-- We have to somehow hook into the existing websocket server and pass through the websocket upgrade and subsequent messages -->
+However, Next.js can be used programmatically too!
+
+```javascript {all|11-12}
+// As of Next.js v13, v14, and v15:
+import next from 'next';
+
+const app = next({ dev: true });
+
+await app.prepare();
+
+const requestHandler = app.getRequestHandler();
+// type RequestHandler = (req: IncomingMessage, res: ServerResponse, parsedUrl?: any) => Promise<void>;
+
+const upgradeHandler = app.getUpgradeHandler();
+// type UpgradeHandler = (req: IncomingMessage, socket: any, head: any) => Promise<void>;
+```
+
+<!-- Unfortunately, its not well documented, but the important parts are: -->
 
 ---
-transition: slide-down
+
+# All together now...
+
+```javascript {1-3,11|4,8|5-7|10}
+const upgradeHandler = app.getUpgradeHandler();
+
+server.upgrade((req, socket, head, next) => {
+  if (req.url === '/_next/webpack-hmr') {
+    return upgradeHandler(req, socket, head).then(() => {
+      return next(req, socket, head);
+    })
+  }
+
+  return next(req, socket, head);
+}, { runFirst: true });
+```
+
+<!-- 
+1. Get the upgrade handler from Next.js and setup the Harper upgrade handler.
+  a. Use the `runFirst` option to ensure that the Next.js upgrade handler runs first.
+2. Then inspect the request URL to see if it matches the Webpack HMR endpoint.
+3. If it does, call the Next.js upgrade handler to upgrade the connection.
+  b. There is some additional nuance to this that I'm glossing over here, but the key is that even after upgrading its important to call `next` so that additional middleware can run.
+4. And if it  doesn't match, just call `next` to continue processing the upgrade request.
+ -->
+
+---
+layout: center
 ---
 
-## Version Compatibility
+# 🎉
+
+<!-- And just like that, we have enabled hot module reloading for Next.js dev mode! Short demo video maybe? -->
+
+---
+
+# 🧩 Version Compatibility
 
 - Dynamic imports
 - Defensive code patterns
