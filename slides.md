@@ -3,7 +3,8 @@
 theme: default
 # random image from a curated Unsplash collection by Anthony
 # like them? see https://unsplash.com/collections/94734566/slidev
-background: https://cover.sli.dev
+# background: https://cover.sli.dev
+background: ./images/harper-background.jpg
 # some information about your slides (markdown enabled)
 title: Trials and Tribulations of Self-Hosting Next.js
 info: By Ethan Arrowood and Austin Akers
@@ -189,16 +190,27 @@ layout: center
 
 # 🕸️ The WebSocket API 🔌
 
----
-
-- RFC 6455 (December 2011)
+- RFC 6455 (first published December 2011)
 - Enables real-time communication **without** traditional HTTP polling
-- Client/Server architecture
-- TCP based & HTTP Upgrade mechanism
-  1. Client sends HTTP request with `Upgrade: websocket` header
-  2. Server responds with `101 Switching Protocols`
-  3. Connection is established
-  4. Data can be sent in both directions
+- Client sends a HTTP upgrade request to the server
+  ```http
+  GET /_next/webpack-hmr HTTP/1.1
+  Host: localhost:3000
+  Upgrade: websocket
+  Connection: upgrade
+  Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+  Sec-WebSocket-Version: 13
+  ```
+- Server responds with a `101 Switching Protocols` response
+  ```http
+  HTTP/1.1 101 Switching Protocols
+  Upgrade: websocket
+  Connection: upgrade
+  Sec-WebSocket-Accept: dGhlIHNhbXBsZSBub25jZQ==
+  ```
+- Once established, the WebSocket connection allows for full-duplex communication (over the same TCP connection)
+  - _full-duplex_ means both client and server can send messages independently
+  - 👩‍💼📞👨‍💼 Similar to people talking on the phone, both can speak and listen at the same time
 
 <!-- Note: maybe diagram here? Important to describe that WS works via HTTP Upgrade Request and then the two way connection is established -->
 
@@ -254,15 +266,17 @@ const upgradeHandler = app.getUpgradeHandler();
 // type UpgradeHandler = (req: IncomingMessage, socket: any, head: any) => Promise<void>;
 ```
 
-<!-- Unfortunately, its not well documented, but the important parts are: -->
+<!-- Unfortunately, its not well documented, but the important parts are... And the part we are going to focus on is this method, getUpgradeHandler -->
 
 ---
 
-# All together now...
+# 🏗️ All together now...
 
-```javascript {1-3,11|4,8|5-7|10}
+```javascript {1-5,13|6,10|7-9|12}
+// Next.js upgrade handler
 const upgradeHandler = app.getUpgradeHandler();
 
+// Harper upgrade middleware
 server.upgrade((req, socket, head, next) => {
   if (req.url === '/_next/webpack-hmr') {
     return upgradeHandler(req, socket, head).then(() => {
@@ -288,6 +302,10 @@ layout: center
 ---
 
 # 🎉
+
+Harper can simultaneously handle the Next.js dev server WebSocket requests as well as any other WebSocket requests that the Harper server is handling.
+
+<!-- Maybe a diagram here? -->
 
 <!-- And just like that, we have enabled hot module reloading for Next.js dev mode! Short demo video maybe? -->
 
