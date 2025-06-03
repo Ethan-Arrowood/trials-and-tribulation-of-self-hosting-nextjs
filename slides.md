@@ -329,33 +329,66 @@ layout: center
 # 🏘️ Multi-Zone Next.js
 
 ---
-
-# What is Multi-Zone Next.js?
-
-Multi-Zone Next.js is an architecture that separates an application experience into multiple, distinct Next.js applications.
-
-Through the use of Next.js' `assetPrefix` and `rewrites` options, multiple Next.js applications can be served from a single domain.
-
-Traditionally, this requires multiple hosting environments, one for each part of the application.
-
-However, Harper can handle multiple Next.js applications simultaneously!
-
----
 layout: image-right
-image: /images/next-process-execution.png
+image: /images/multi-zone-stacked.png
 backgroundSize: contain
 ---
 
-# Next.js Execution
+# What is Multi-Zone Next.js?
 
-Happens twice...
+An architecture where a singular application is implemented as multiple, distinct Next.js applications.
+- Each part (or zone) is a separate Next.js application
+- Each zone can be developed, built, and deployed independently
+- Combined, they create a cohesive user experience
+- Traditionally, required multiple hosts and performance-sensitive hard navigation
+- However, Harper can handle multiple Next.js applications simultaneously!
 
-1. **Built Time** (`next build`): application source code is compiled and optimized into the `.next` directory
-2. **Run Time** (`next start`): the Next.js server process serves the application from the `.next` directory
+---
+layout: center
+---
 
-The **working directory** for these two steps can be *the same or different*. Next.js doesn't care, as long as all necessary files are present in the application directory.
+# How?
 
-<!-- A Next.js app can even be built on one machine, and deployed and run on another! (this is generally referred to as prebuilt mode). There is some nuance to this (like if you are using native dependencies). But in essence, as long as the entirety of the Next app is kept together, it should be executable. -->
+Well first... a little background on Harper's architecture.
+
+---
+layout: image-right
+image: /images/harper-worker-threads.png
+backgroundSize: contain
+---
+
+# Harper uses Worker Threads
+
+- Harper, like the Node.js runtime its built on, is **single-process**
+- For performance, Harper uses **worker threads** to parallelize operations
+- Each thread runs the same collection of server middleware
+- Requests are distributed across threads
+- All threads **share the same working directory**
+
+---
+layout: image
+image: /images/harper-applications.png
+backgroundSize: contain
+---
+
+<!-- # Harper supports Multi-Zone Next.js
+
+- With Next.js' ability to execute any app as long as you provide the complete application directory
+- And Harper's performant, and highly configurable server middleware system
+- Harper can easily run multiple, distinct Next.js applications simultaneously
+- Multi Zone Next.js requires special configuration (`assetPrefix` and `rewrites` options in `next.config.js`) -->
+
+---
+layout: center
+---
+
+# _What's the catch?_
+
+---
+layout: center
+---
+
+# Next.js and the process **working directory**.
 
 ---
 layout: center
@@ -371,6 +404,28 @@ Node.js is a single-process runtime; thus, it has a singular working directory (
 
 <!-- Many operations will use this by default. For example, path resolution in many Node.js apis will transform the period character to the current working directory. -->
 
+---
+layout: image-right
+image: /images/next-process-execution.png
+backgroundSize: contain
+---
+
+# Next.js Execution
+
+Happens twice...
+
+1. **Built Time** (`next build`): application source code is compiled and optimized into the `.next` directory
+2. **Run Time** (`next start`): the Next.js server process serves the application from the `.next` directory
+
+The **working directory** for these two steps can be *the same or different*. 
+
+<!-- A Next.js app can even be built on one machine, and deployed and run on another! (this is generally referred to as prebuilt mode). There is some nuance to this (like if you are using native dependencies). But in essence, as long as the entirety of the Next app is kept together, it should be executable. -->
+
+---
+layout: center
+---
+
+# Next.js doesn't care about the working directory, as long as *all necessary files* are present in the application directory.
 
 ---
 
@@ -391,39 +446,37 @@ The `dir` option must be set to the **directory containing the Next.js applicati
 
 The *working directory* of the process running the Next.js server *should* not matter as long as the `dir` option is set correctly.
 
-<!--  -->
+<!-- Furthermore... the Next.js server API demonstrates this even more clearly. -->
 
 ---
-layout: image-right
-image: /images/harper-worker-threads.png
-backgroundSize: contain
+layout: center
 ---
 
-# Harper uses Worker Threads
-
-- Harper, like the Node.js runtime its built on, is **single-process**
-- For performance, Harper uses **worker threads** to parallelize operations
-- Each thread runs the same collection of server middleware
-- Requests are distributed across threads
-- All threads _share the same working directory_
+# Here is the problem...
 
 ---
-layout: image-right
+layout: center
+---
+
+# Some dependencies **rely** on `process.cwd()` to resolve paths. 🤦‍♂️
+
+---
+layout: image
 image: /images/harper-applications.png
 backgroundSize: contain
 ---
 
-# Harper supports Multi-Zone Next.js
-
-- With Next.js' ability to execute any app as long as you provide the complete application directory
-- And Harper's performant, and highly configurable server middleware system
-- Harper can easily run multiple, distinct Next.js applications simultaneously
-- Multi Zone Next.js requires special configuration (`assetPrefix` and `rewrites` options in `next.config.js`)
--
+<!-- And so if we look back at this diagram of Harper's middleware system. Remember that we are simply using the Next.js server API, 
+but if either (or worse, both) of these apps require the working directory to run... then we have a fundamental issue! -->
 
 ---
+layout: center
+---
 
-# Unfortunately... its not that simple
+# Unfortunately, we haven't quite solved this yet 👷‍♂️🧰
+But the most performant Multi-Zone Next.js apps on Harper don't rely on the working directory!
+
+<!-- If an app requires the working directory we just have to revert back to the traditional hosting architecture. -->
 
 ---
 transition: slide-right
