@@ -20,6 +20,7 @@ mdc: true
 # open graph
 # seoMeta:
 #  ogImage: https://cover.sli.dev
+lineNumbers: true
 ---
 
 # Trials and Tribulations of Self-Hosting Next.js
@@ -479,16 +480,86 @@ But the most performant Multi-Zone Next.js apps on Harper don't rely on the work
 <!-- If an app requires the working directory we just have to revert back to the traditional hosting architecture. -->
 
 ---
-transition: slide-right
+layout: center
 ---
 
-## Deployment Experience
-- Build mode support
-- Analyzing the build output
-- Integration with CI systems
-- Harper's component application deployment process
-- Vercel and Netlify's default experience
-- Emulating that experience
+# 🚀 Deployment
+
+---
+
+# Most Next.js apps are deployed as many pieces
+
+<img src="./images/nextjs-deployment-architecture.png" />
+
+---
+
+# But Harper is all-in-one!
+
+<img src="./images/nextjs-harper-architecture.png" />
+
+---
+
+# The Next.js server-side code runs in the same process as the database.
+
+```js {1|3-8|10-19}
+import { tables } from 'harper';
+
+// `/dog/[id]`
+export function Page({ params }) {
+  const dog = await table.Dog.get(params.id);
+
+  return <h1>{dog.name}</h1>;
+}
+
+export async function generateStaticParams() {
+  const dogs = [];
+
+  for await (const dog of tables.Dog.search()) {
+    dogs.push({ id: dog.id });
+  }
+
+  return dogs;
+}
+```
+
+---
+
+# Harper deployments are not ephemeral
+You wouldn't want to lose your database data on every deploy!
+
+<img src="./images/nextjs-harper-production.png" />
+
+---
+
+# Every Deployment requires
+
+<!-- use the v-step animation feature here? -->
+
+1. 📦 Install
+2. 🏗️ Build
+3. 🚀 Run
+
+---
+
+# How do we achieve this on a live system?
+
+--- 
+
+# Rolling updates ensure consistent uptime
+
+<img src="./images/rolling-deploy.png" />
+
+---
+
+# Thread-isolated install and build operations
+
+<img src="./images/thread-safe-install-and-build.png" />
+
+---
+
+# Refresh the Next.js Server!
+
+
 
 ---
 transition: slide-up
