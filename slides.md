@@ -35,6 +35,7 @@ layout: intro
 
 - 🎨 **Introduction**
 - 🧑‍💻 **What does it mean to support Next.js?**
+  - Develop -> Build -> Deploy -> Run
 - 🧑‍💻 **What's Next?**
 - 🧩 **Conclusion**
 
