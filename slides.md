@@ -26,31 +26,11 @@ mdc: true
 
 By Ethan Arrowood and Austin Akers
 
-
----
-layout: intro
----
-
-# Overview
-
-- 🎨 **Introduction**
-- 🧑‍💻 **What does it mean to support Next.js?**
-  - Develop -> Build -> Deploy -> Run
-- 🧑‍💻 **What's Next?**
-- 🧩 **Conclusion**
-
-
----
-layout: section
----
-
-# 👋 Introduction
-
 ---
 layout: two-cols
 ---
 
-# Who are we?
+# Who we are
 
 <img
   class="rounded-full w-32 h-32 mt-24 justify-self-center"
@@ -70,122 +50,158 @@ layout: two-cols
 
 <h2 class="text-center">Austin Akers</h2>
 
----
----
-
-## The Problem?
-
-<!-- State the problem: self-hosting Next.js is surprisingly hard.
-
-Set expectations: “We’ll walk through how we support the entire Next.js lifecycle on our platform.”
- -->
-
-
+<!-- Each of us introduce ourselves -->
+<!-- Include titles -->
+<!-- Definitely somehow state that we are both engineers at Harper -->
 
 ---
-layout: section
+
+Real quick... What is Harper? 
+
+<!-- Serverful, all-in-one Node.js platform -->
+
+<!-- Diagram with basic architecture -->
+
+<!-- The transition will come from the top most part of the architecture diagram which stats "Application Hosting" -->
+
+---
+layout: center
 ---
 
-# 🎨 What Does It Mean to Host Next.js?
+## Hosting Next.js is surprisingly hard
 
+<!-- There is a lot to it! -->
 
---- 
+<!-- quick slide - say whats on screen and move on - because the hook comes from next slide -->
+
 ---
 
-# 4 Key Areas
+## Its not just `next start`
 
-<div class="grid grid-cols-4 gap-4 mt-16 text-center">
+<!-- Say whats on the slide and then... -->
+<!-- Our goal was not just to host Next.js apps, but provide a holistic Next.js application development experience -->
 
+---
+
+## Framework for supporting Next.js
+
+<!-- So, we came up with a high-level framework to dictate what it means to support Next.js -->
+
+<!-- <div class="grid grid-cols-4 gap-4 mt-16 text-center">
 <div>
 Develop
 </div>
 <div>
- Build
+  Build
 </div>
 <div>
- Deploy
-</div>
+  Deploy
+  </div>
 <div>
- Run
-</div>
+  Run
+  </div>
+</div> -->
 
-</div>
 
+<v-clicks every="1">
+
+- Develop
+- Build
+- Deploy
+- Run
+
+</v-clicks>
+
+ <!-- either or - goal: display each step one at a time on the same slide. -->
 
 ---
+
+## What is Next.js? 
+
+<!-- logo, screenshot of Next website -->
+<!-- Next.js is a full-stack react framework. -->
+<!-- It has continue to popularize patterns such as SSR, SSG, and it focusses on an excellent developer experience.  -->
+
+---
+
+## What is Harper?
+
+<!-- "We've already mentioned, Harper is a serverful, all-in-one Node.js platform" -->
+<!-- "And more technically we are...." -->
+<!-- A little more technical -->
+<!-- Reiterate all-in-one Node.js platform -->
+<!-- Single process, worker threads for performance, production scaling via clustering and replication -->
+<!-- Built-in Database, Complete File System access, Application Hosting -->
+
+<!-- "Lets dive in" "Lets get started" -->
+
 ---
 
 # Develop
-Goal: Make dev experience feel native.
 
-Challenge: Next.js dev mode requires WebSocket + HMR + file watching.
-
-Solution:
-
-How you used Harper’s networking middleware to inject upgrade handlers.
-
-WebSocket support, HMR, filesystem watching.
-
-Show code sample, graphics.
-
-Mention the custom CLI here—harper dev bootstraps Harper + Next.js cleanly.
+<!-- The first aspect of our framework is "Develop". What this meant to us was parity (or maintaining) Next.js' excellent developer experience -->
 
 ---
+
+# Supporting Next.js dev mode
+
+<!-- for most developers the first part of Next.js they interact with is the `next dev` command -->
+
+---
+
+# Dev mode can mean a lot of different things
+
+There features like:
+- Hot Module Reloading
+- Fast Refresh
+- Error Overlay
+
+And there is tooling like
+- `next dev` CLI interface
+- Dev-Tools Integration
+
+<!-- This is the high-level feature summary slide of "what is Dev Mode" -->
+<!-- probably good enough to just flip through them quickly and continue moving on... -->
+
+---
+
+# Hot Module Reloading
+<!-- We want to highlight one of the harder aspects of this which was supporting Hot Module Reloading -->
+
+---
+
+# HMR is powered by WebSockets
+
+---
+
+# Harper has an embedded networking middleware layer
+
+---
+
+# How do we integrate Next.js HMR with Harper's WebSocket server?
+
+---
+
+<!-- Show and explain Next.js server API and getUpgradeHandler method (1 min) -->
+
+<!-- Show and explain (briefly) Harper's server middleware (1 min) -->
+
+<!-- Show how to combine them together to support HMR via Harper -->
+
 ---
 
 # Build
 
-Not serverless = no ephemeral builds.
 
-You run next build directly, but inside Harper’s process.
-
-CLI again: supports harper build.
-
-Mention experimental cache integration here (build output caching, potential future enhancements).
-
----
 ---
 
 # Deploy
 
-Harper’s model: Always-on, long-lived process with rollouts.
 
-Challenge: Users may deploy raw source or built apps.
-
-Solution:
-
-Extension system can run either.
-
-Rolling deployment to clusters with zero downtime.
-
-Briefly touch on CLI support (harper deploy).
-
----
 ---
 
 # Run
 
-Actually serving the Next.js app, SSR, API routes, etc.
-
-Version Compatibility:
-
-Dynamic import of correct Next.js version.
-
-Support from v9 to latest.
-
-WIP: testing matrix, feature support.
-
-Multi-Zone support:
-
-Harper can support multiple apps.
-
-Routing, isolation, challenges with working directories.
-
-Custom Cache Handling (bonus/experimental):
-
-Next.js custom cache handlers.
-
-How Harper's internal DB integration avoids round-trips.
 
 ---
 layout: section
