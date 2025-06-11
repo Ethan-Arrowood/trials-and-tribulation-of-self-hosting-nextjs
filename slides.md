@@ -130,7 +130,7 @@ Finally, "Run"
 -->
 
 ---
-layout: center
+layout: section
 transition: slide-up
 ---
 
@@ -238,10 +238,10 @@ server.socket((socket) => {
   /* Same as net.createServer() */
 }, { port: 1234 });
 
-server.http((req, res, next) => {
-  if (req.url === 'ping') res.end('pong');
+server.http((req, next) => {
+  if (req.url === 'ping') return { status: 200, body: 'pong' };
 
-  return next(req, res);
+  return next(req);
 });
 
 server.ws((ws, req, chainCompletion, next) => {
@@ -352,7 +352,7 @@ transition: slide-left
 
 ---
 transition: slide-up
-layout: center
+layout: section
 ---
 
 # Build
@@ -377,38 +377,15 @@ Since Harper is a whole platform, we needed to ensure the system was started up,
 transition: slide-up
 ---
 
-# Single Process, Multi-Threaded
+# Thread-safe build process
 
-<!--
-TODO: turn this into a excalidraw diagram
-IDEA: Use colors to highlight the yes/no paths
-Investigate the right way to indicate a like loop in the diagram
--->
-```mermaid
-flowchart LR
-  Start(( ))
-
-    Start --> C{File lock exists?}
-    C -- Yes --> D{Is lock stale?}
-    C -- No --> E[Create file lock]
-    D -- Yes --> I[Remove file lock]
-    D -- No --> Start
-    I --> Wait
-    Wait --> Start
-    E --> F{Is build stale?}
-    F -- Yes --> G[Run build process]
-    G --> H[Release file lock]
-
-    F -- No --> H[Release file lock]
-    H --> Exit
-```
+<img src="./images/File-Lock-Flow-Chart.png" />
 
 <!-- 
-Given that Harper is a single process, multi-threaded platform, we needed to ensure that the build process was isolated
+Given that Harper is a single process, multi-threaded platform, we needed to ensure that the build process was isolated.
 Threads in Harper generally all do the same thing unless we specify otherwise.
 We are actively improving this experience, but at the beginning we created a custom file-based thread locking mechanism to ensure that only one thread would run the build process.
-(step through diagram of file locking mechanism - highlight the key steps like checking mod time and pieces like that)
- -->
+-->
 
 ---
 layout: center
@@ -417,25 +394,22 @@ transition: slide-left
 
 <!-- Consider starting the Deploy section here? This is definitely the best transition -->
 
-# Unlike Serverless, No Ephemeral Builds/Deployments
+# Build artifacts add up quickly!
 
-## Build artifacts add up quickly!
-
-<!-- Could replace this with a static image but the idea is I wanted something to represent that build artifacts take up a lot of space -->
-<!-- Also, funny gif for 3/4 of the way through the talk. The last slides have all been quite dense. Good to lighten it up -->
 <img src="./images/bruce-almighty.gif" />
 
-<!-- Now transition into the Deploy section by first talking about architecture -->
+- Local Builds (`prebuilt: true`)
+- Build on instance (`harperdb deploy`) 
 
 <!-- 
 Unlike serverless platforms that treat each build and deployment as a unit of work, Harper is a long running process.
-We couldn't really provide the same ephemeral build experience without completely ~blowing up~ (use better word here) our users's Harper instances (turns out build artifacts can add up quite quickly!!).
+We couldn't really provide the same ephemeral build experience without completely filling up our users's Harper instances with build artifacts.
 So instead, at least for now, we kept things simple. Builds can happen either locally or remotely, but they will always override what is currently running.
 And this leads us to the next step in our framework: Deploy.
  -->
 
 ---
-layout: center
+layout: section
 transition: slide-up
 ---
 
@@ -449,43 +423,87 @@ layout: center
 transition: slide-up
 ---
 
-# TODO cluster/replication diagram
-<!-- TODO diagram of cluster/replication -->
+# Clustering & Replication
 
-<!-- Now we briefly mentioned that Harper is a long running process, and for our production systems often clustered and replicated across regions. -->
+<img class="w-sm" src="./images/Clustering-Replication.png"/>
+
+<!-- In our production systems we often cluster and replicate Harper instances across regions. -->
 
 ---
 layout: center
 transition: slide-up
 ---
 
-<!--  Maybe another gif? Not sure of a good diagram idea -->
+# Rolling Deployments
 
-# Rollouts
+<!--
+Since we don't really fit into the regular serverless model, we had to come up with a way to deploy applications without disrupting production.
+You wouldn't want your entire database to be reset every time you deployed your web app, right?
+So, we utilize a rolling deployment system. And the best part this isn't even unique to just Next.js.
+The entire Harper platform uses this same technique to as part of its replication system to distribute operations across the network.
 
-<!-- Going back to the idea of Ephemeral deployments, remember that Harper is all-in-one platform. 
-You wouldn't want your entire database to be reset every time you deployed your web app, right? 
-So our solution is to use a rolling deployment system. This is particularly linked to our replication system where the function of _deploying_ the app is simply an operation like any other on the platform.
-And so as long as we indicate it should be replicated, then every instance in the network will receive the deploy operation.
 -->
+
+---
+layout: image
+image: /images/Rolling-Deploys-1.png
+backgroundSize: contain
+transition: fade
+---
+
+<!-- Given a new application deployment, it can be deployed to any one of the available clusters -->
+
+---
+layout: image
+image: /images/Rolling-Deploys-2.png
+backgroundSize: contain
+transition: fade
+---
+
+<!-- Whichever cluster is first will execute the build and deploy sequence, and then replicate it to another node -->
+
+---
+layout: image
+image: /images/Rolling-Deploys-3.png
+backgroundSize: contain
+transition: fade
+---
+
+<!-- As the deploy operation is replicated across the instances, production disruption is greatly minimized -->
+
+---
+layout: image
+image: /images/Rolling-Deploys-4.png
+backgroundSize: contain
+transition: fade
+---
+
+<!-- Once all the node receive the update, the operation completes -->
+
+---
+layout: image
+image: /images/Rolling-Deploys-5.png
+backgroundSize: contain
+transition: slide-up
+---
+
+<!-- And the application is fully deployed! -->
 
 ---
 layout: center
 transition: slide-left
 ---
 
-`harperdb deploy`
+# `harperdb deploy`
 
 <!-- 
-Note: this isn't tied to the Next.js CLI anymore
-Reiterate the idea that deployments is a general operation on Harper, not just Next.js
-Make the point that we discovered this part of the framework was easiest to abstract and generalize to support all kinds of applications, not just Next.js.
+And like we said, this isn't just for Next.js applications.
 
-Depending on time... this might be a good place to expand a little bit into Harper as a platform, but remember no sales pitches!
+Harper already had this replication and clustering system in place for other operations, so we were able to leverage it to create a positive Next.js application deployment experience.
 -->
 
 ---
-layout: center
+layout: section
 transition: slide-up
 ---
 
@@ -498,48 +516,47 @@ layout: center
 transition: slide-up
 ---
 
-No, we still aren't using `next start`
+# _No_, we still aren't using `next start`
 
-<!-- Relate back to the joke at the beginning -->
+<!-- Maybe funny Gif here? -->
 
 ---
 layout: center
 transition: slide-up
 ---
 
-Next.js Server API again
+Next.js Server API and Harper HTTP Middleware
 
-```javascript
-import next from 'next';
-
+```javascript {1-6|8-11|13-21|all}{lines:true}
+const componentPath = 'path/to/app';
+const routesManifestPath = path.join(
+  componentPath, '.next', 'routes-manifest.json');
 const app = next({ dir: componentPath });
 
 await app.prepare();
 
 const requestHandler = app.getRequestHandler();
 
-	server.http(
-		(request, next) => {
-      // TODO: use a better logic here to demonstrate the request handling logic.
-      // MAYBE some sort of basic routing? Like, we can say that in this naive example, the app is just hosted at `/` 
-      // MAYBE frame it like "process last - if Harper hasn't handled it, then pass it to Next.js"
-			return request._nodeResponse === undefined
-				? next(request)
-				: requestHandler(
-          request._nodeRequest,
-          request._nodeResponse,
-          urlParse(request._nodeRequest.url, true)
-        );
-		}
-	);
+const routes = JSON.parse(
+  await fs.promises.readFile(routesManifestPath, 'utf8'));
+
+server.http((request, next) => {
+  return matchRoutes(routes, request.url)
+    ? requestHandler(
+        request._nodeRequest,
+        request._nodeResponse,
+        url.parse(request._nodeRequest.url, true)
+      )
+    : next(request);
+});
 ```
 
 <!-- 
 So just like we used the Next.js Server API to handle WebSocket upgrades, we can also use it to run the application.
-
-We can use the `getRequestHandler` method to get a request handler that can be used to handle incoming requests.
-
-(walk through code snippet of using getRequestHandler to create a request handler and then use it with Harper's HTTP server)
+- Start by setting up the `app` instance
+- Get the `requestHandler` and the routes information
+- And then hook into Harper's HTTP middleware system
+This example is overly simplified, but the jist is that we delegate the request handling to Next.js and it just works!
  -->
 
 ---
@@ -547,55 +564,97 @@ layout: center
 transition: slide-up
 ---
 
-Version Compatibility
+# Version Compatibility
 
-```javascript
+```javascript {1|3-4|6-8|all}{lines:true}
 import { createRequire } from 'node:module';
 
-const appPath = 'path/to/nextjs/app'; // or maybe `getAppPath()` 
+const appPath = 'path/to/app';
 const appRequire = createRequire(applicationPath);
 
 const nextImport = await import(appRequire.resolve('next'));
 
 const next = nextImport.default || nextImport;
+
+const app = next({ dir: appPath });
+// ...
 ```
 
-<!-- 
-Next.js has many versions, and honestly it takes a lot of time for users to migrate and upgrade. so it was imperitive we support multiple versions of Next.js.
-
-We do this by using the applications included Next package and dynamically importing it. 
-
-(walk through code snippet and touch on both dynamic imports in Node as well as the fact that our extension system gets the file system of the application and can use that to its advantage)
-
- -->
-
----
-layout: center
-transition: slide-up
----
-
-<!-- THINKING OUTLOUD: Not really sure I like this section anymore. I like the technical point we make in previous slide. This doesn't add much value and I can't think of a good way to present it. -->
-
-Short story about Next 9
-
-<!-- Maybe funny graphic or gif or meme? -->
-
-<!-- Furthermore, we had the unique challenge of supporting a very old Next.js version!
-With Next 9 it actually worked surprisingly well, but unfortunately we had to drop support for the dev mode because it didn't have any upgrade handler API.
-Kudos to the Next team for maintaining backwards compatibility for so long!
- -->
+<!--
+Next.js has many versions, and honestly it takes a lot of time for users to migrate and upgrade.
+It was imperative we support multiple versions of Next.js.
+And it turns out, Next prefers that the same version of it is used to run the app that is used to build it.
+So we leverage Node.js' dynamic import system to load the Next.js version that is installed in the application.
+- It isn't too complicated, using the `createRequire` function we can create a require function that is scoped to the application directory.
+- This lets us resolve the Next.js package sort of like how a regular import would work
+- Then we use a dynamic import to load the Next.js package
+- Finally, we can create the Next.js app instance and do all the other hooks
+This code has enabled us to dynamically support many major Next.js versions!
+-->
 
 ---
 layout: center
 transition: slide-up
 ---
 
-
-Multi-Zone support
+# Multi-Zone support
+(a.k.a. micro-frontends)
 
 <!--
 We probably sound like a broken record at this point, but Harper isn't your isolated, serverless environment host.
-We have the ability to run multiple applications in the same process, and this naturally lead us to exploring support for Next.js multi-zone applications (micro-frontends).
+Thus, we have the ability to run multiple applications in the same process, and this naturally lead us to exploring support for Next.js multi-zone applications also known as micro-frontends.
+
+This pattern has mixed feelings, but it is very popular in Enterprise companies.
+ -->
+
+---
+layout: image
+image: /images/Multi-Zone-Architecture.png
+backgroundSize: contain
+transition: slide-up
+---
+
+<!-- 
+Multi-Zone is basically multiple separate Next.js applications. Traditionally deployed across multiple hosts.
+As requests come in, they will be routed to the appropriate application through Next.js' assetPrefix and redirects configuration options.
+ -->
+
+---
+layout: image
+image: /images/Multi-Zone-Flow-Chart.png
+backgroundSize: contain
+transition: slide-up
+---
+
+<!-- 
+But since Harper can run all three apps simultaneously on the same server, we have experimented with custom routing.
+Similar to the HTTP handler we had earlier, where we import the routes manifest and use within the http middleware,
+one idea we had was if we know the routes for each application, we could in theory just structure the middleware to route requests based on successful matches.
+And if the first middleware doesn't match, it passes it along until the end.
+
+This is very similar to how Next.js generally handles multi-zone routing, but ideally we can decrease the amount of "hard-navigation" that has to happen.
+-->
+
+---
+layout: center
+transition: slide-up
+---
+
+# ... One issue
+
+<!-- But unfortunately, as cool as this custom routing idea is, we actually ran into a pretty difficult limitation -->
+
+---
+layout: center
+transition: slide-up
+---
+
+# The Working Directory Problem
+
+<!-- 
+Generally, its assumed that the working directory whenever you build or run a Next.js app is the app source directory itself.
+
+This is most common during development, and is also how many hosts work.
  -->
 
 ---
@@ -603,66 +662,72 @@ layout: center
 transition: slide-up
 ---
 
-<!-- Insert diagram of handler flow -->
-
-<!-- 
-One of the key details is that our handler system naturally supported simplified, url based passthroughs.
-So we load the apps in reverse specificity order, and as the request flows through the handler chain, it will match the first app that has a handler for the request.
-This allows us to support multi-zone applications without any additional configuration.
--->
-
----
-layout: center
-transition: slide-up
----
-
-... With one exception
-
----
-layout: center
-transition: slide-up
----
-
-Working Directory Limitation
+# Single Process... Single Working Directory
 
 <!--
-One of the biggest limitations of being a single process platofrm is that we have a single working directory.
+One of the biggest limitations of being a single process platform is that we have a single working directory.
 
-This means that we cannot run multiple Next.js applications in the same process if they have conflicting working directories.
-
-Now Next.js itself doesn't have this limitation, but some application dependencies do.
-
-We haven't really found a workaround for this, but its generally avoidable with good application design and implementation
+And in the multi-zone case, where there are multiple distinct Next.js applications, this **can** be a problem.
 -->
 
 ---
 layout: center
-transition: slide-up
+transition: slide-left
 ---
 
-Custom Cache Handling
-<!-- Bonus future work section if we have the time for it -->
+# Next.js is fine with this...
+
+Some React dependencies aren't unfortunately
+
+<!-- 
+Now luckily Next.js itself is not affected, but some application dependencies do.
+
+We haven't really found a workaround for this, but its generally avoidable with good application design and implementation
+ -->
 
 ---
 layout: section
+transition: slide-left
 ---
 
 # What's Next?
 
-Open issues: working directory limitation, full test coverage, feature parity.
+---
+layout: center
+transition: slide-up
+---
 
-What excites you: pushing custom caching deeper, extending to other frameworks.
+# Routing Improvements
+HTTP Middleware, Multi-Zone, and more
+
+---
+layout: center
+transition: slide-up
+---
+
+# Custom Cache Handler
+Not just HTTP request caching, but also Next.js' internal cache
+
+---
+layout: center
+transition: slide-up
+---
+
+# Abstractions for other frameworks
+How can we supercharge Astro, Svelte, Vue, and more?
 
 ---
 layout: section
 ---
 
-# Conclusion
+# Dev → Build → Deploy → Run
 
-Recap the lifecycle: Dev → Build → Deploy → Run.
+## You can self-host Next.js, but it’s more than just `next start`
 
-Key takeaway: You can self-host Next.js, but it’s more than just npm start.
+---
+layout: image
+image: /images/Harper-Logo.png
+backgroundSize: contain
+---
 
-Invite folks to dig into the GitHub repo, ask questions.
-
-
+<!-- Thank you! -->
