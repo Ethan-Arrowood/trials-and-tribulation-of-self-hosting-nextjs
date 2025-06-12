@@ -440,18 +440,32 @@ This solution worked pretty well, and this flow diagram documents how it works
 -->
 
 ---
-layout: center
+layout: two-cols
 transition: slide-left
 ---
 
-# Build artifacts add up quickly!
+## Build artifacts add up quickly!
 
 <!-- TODO: style this slide better - particularly the bullet points at the bottom. Maybe have them appear on click? -->
 
-<img src="./images/bruce-almighty.gif" />
+<div class="mt-8">
+<v-clicks>
+<div class="my-2">
 
 - Local Builds (`prebuilt: true`)
-- Build on instance (`harperdb deploy`) 
+</div>
+<div class="my-2">
+
+- Build on instance (`harperdb deploy`)
+</div>
+
+</v-clicks>
+</div>
+
+::right::
+
+<img src="./images/bruce-almighty.gif" />
+
 
 <!-- 
 Unlike serverless platforms that treat each build and deployment as an independent unit, Harper instances are long running, serverfull processes.
