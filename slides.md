@@ -18,22 +18,29 @@ transition: slide-left
 ---
 
 <img
-  class="rounded-full w-32 h-32 mt-0 justify-self-center"
+  class="rounded-full w-64 h-64 mt-0 justify-self-center"
   src="https://avatars.githubusercontent.com/u/16144158?v=4"
   alt="Ethan Arrowood"
 />
 
-<h2 class="text-center">Ethan Arrowood</h2>
+<div class="text-center">
+  <h2>Ethan Arrowood</h2>
+  <h3>Senior Software Engineer</h3>
+  <a href="https://ethanarrowood.com">ethanarrowood.com</a>
+  <br />
+  <a href="https://linkedin.com/in/ethan-arrowood">linkedin.com/in/ethan-arrowood</a>
+</div>
 
 ::right::
 
 <img
-  class="rounded-full w-32 h-32 mt-0 justify-self-center"
+  class="rounded-full w-64 h-64 mt-0 justify-self-center"
   src="https://avatars.githubusercontent.com/u/11778717?v=4"
   alt="Austin Akers"
 />
 
 <h2 class="text-center">Austin Akers</h2>
+<h3 class="text-center">Developer Experience Engineer</h3>
 
 <!-- Each of us introduce ourselves. Include titles.
 Whoever is kicking off should start with a transition along the lines of: "Lets get into it!" -->
@@ -43,8 +50,8 @@ Whoever is kicking off should start with a transition along the lines of: "Lets 
 <img src="./images/harper-simplified-architecture.png" />
 
 <!--
-Harper is a serverfull, all-in-one Node.js platform with full fil system access, an embedded database, networking middleware system, and application hosting support.
-It is built on top of Node.js and operates in a single process, using worker threads for performance, and production scaling via clustering and replication.
+Harper is a serverfull, all-in-one Node.js platform with full file system access, an embedded database, networking middleware system, and application hosting support.
+It is built on top of Node.js and operates in a single process, using worker threads for performance, and leverages clustering and replication for production scaling.
 The whole platform works together to provide an high performance, easy to use, enterprise-grade development experience.
 -->
 
@@ -54,18 +61,20 @@ transition: slide-left
 ---
 
 <h2>Harper<s>DB</s></h2>
-<h3>harpersystems.dev</h3>
+<h3><a href="https://harpersystems.dev">harpersystems.dev</a></h3>
 
-<!-- Oh yeah! You may have known us as HarperDB previously, recently we rebranded and our now entirely Harper! You may still see "HarperDB" floating around though as we slowly update the name across all our systems -->
+<!--
+You may have known us as HarperDB previously, recently we rebranded and our now entirely Harper! You may still see "HarperDB" floating around though as we slowly update the name across all our systems
+-->
 
 ---
 
 <img src="./images/nextjs-org.png" />
 
 <!--
-"Next.js is a full-stack react framework for building modern web applications."
-"It uses common patterns like server-side rendering, static site generation, and client-side rendering to provide a flexible and powerful development experience."
-"But Next.js is more than just what it can create. The entire development experience from prototyping to production is what makes Next.js so powerful."
+- Next.js is a full-stack react framework for building modern web applications.
+- It uses common patterns like server-side rendering, static site generation, and client-side rendering to provide a flexible and powerful development experience.
+- But Next.js is more than just what it can create. The entire development experience from prototyping to production is what makes Next.js so powerful.
  -->
 
 ---
@@ -73,9 +82,13 @@ layout: center
 transition: slide-left
 ---
 
-# Hosting Next.js is surprisingly hard
+# Hosting Next.js is surprisingly difficult
 
-<!-- quick slide - say whats on screen and move on - because the hook comes from next slide -->
+<img class="mx-auto" src="./images/math-lady.gif" />
+
+<!--
+Hosting Next.js is surprisingly difficult
+-->
 
 ---
 layout: center
@@ -84,14 +97,17 @@ transition: slide-left
 
 # Its much more than just `next start`
 
-<!-- Say whats on the slide and then... -->
-<!-- Our goal was not just to host Next.js apps, but provide a holistic Next.js application development experience -->
+<!--
+Our goal was not just to host Next.js apps, but provide a holistic Next.js application development experience
+-->
 
 ---
 transition: slide-left
 ---
 
 # Supporting Next.js
+
+<!-- TODO: improve design of this slide -->
 
 <!-- <div class="grid grid-cols-4 gap-4 mt-16 text-center">
 <div>
@@ -120,13 +136,13 @@ Develop
 </v-clicks>
 
 <!--
-So, we came up with a high-level framework to dictate what it means to support Next.js 
-First, "Develop"
-Then, "Build"
-Next, "Deploy"
-Finally, "Run"
+So, we came up with a high-level framework to dictate what it means to support Next.js.
+- First, "Develop"
+- Then, "Build"
+- Next, "Deploy"
+- Finally, "Run"
 
-"Let's dive right in"
+Let's dive in!
 -->
 
 ---
@@ -136,7 +152,10 @@ transition: slide-up
 
 # Develop
 
-<!-- The first aspect of our framework is "Develop". For us, this meant parity with Next.js' excellent developer experience -->
+<!--
+The first aspect of our framework is "Develop".
+For us, this meant providing parity with Next's excellent developer experience
+-->
 
 ---
 layout: center
@@ -145,13 +164,17 @@ transition: slide-up
 
 # `next dev`
 
-<!-- for most developers the first part of Next.js they interact with is the `next dev` command -->
+<!--
+For most developers the first part of Next.js they interact with is the `next dev` command 
+-->
 
 ---
 transition: slide-up
 ---
 
 # Dev Mode
+
+<!-- TODO: Improve design of this slide -->
 
 <v-clicks>
 
@@ -166,18 +189,20 @@ transition: slide-up
 
 </v-clicks>
 
-<!-- This is the high-level feature summary slide of "what is Dev Mode" -->
-<!-- probably good enough to just flip through them quickly and continue moving on... -->
+<!-- 
+This encapsulates "Dev Mode" and is the core to Next's excellent developer experience.
+-->
 
 ---
 layout: center
 transition: slide-up
 ---
 
-# Hot Module Reloading
+# 🔎 Hot Module Reloading
 
 <!-- 
-We want to highlight one of the harder aspects of supporting dev mode which was integrating Next.js' Hot Module Reloading with Harper's WebSocket middleware
+Today, we are going to highlight Hot Module Reloading.
+This aspect is powered by WebSockets, and was one of the more difficult parts to integrate into Harper.
 -->
 
 ---
@@ -186,6 +211,8 @@ layout: image
 image: /images/HMR-Sequence-Diagram.png
 backgroundSize: contain
 ---
+
+<!-- _walk through flow diagram step by step_ -->
 
 ---
 layout: center
