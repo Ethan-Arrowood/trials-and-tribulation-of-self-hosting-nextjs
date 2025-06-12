@@ -188,13 +188,13 @@ transition: slide-up
 
 <v-clicks>
 
-- <h2 class="font-medium">Hot Module Reloading</h2>
+- <h2 class="font-medium">🔥Hot Module Reloading</h2>
   - <i>Instant feedback loop where code changes are reflected in the browser without a full page reload.</i>
-- <h2 class="font-medium mt-4">Fast Refresh</h2>
+- <h2 class="font-medium mt-4">💨Fast Refresh</h2>
   - <i>Preserves component state throughout refreshes, allowing for a smoother development experience.</i>
-- <h2 class="font-medium mt-4">Error Overlay</h2>
+- <h2 class="font-medium mt-4">⛔️Error Overlay</h2>
   - <i>Displays errors and warnings in the browser, making it easier to debug issues.</i>
-- <h2 class="font-medium mt-4">Dev-Tools Integration</h2>
+- <h2 class="font-medium mt-4">🛠️Dev-Tools Integration</h2>
   - <i>Displays errors and warnings in the browser, making it easier to debug issues.</i>
 
 </v-clicks>
