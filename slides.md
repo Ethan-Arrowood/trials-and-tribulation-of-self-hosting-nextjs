@@ -13,38 +13,39 @@ mdc: true
 By Ethan Arrowood and Austin Akers
 
 ---
-layout: two-cols
 transition: slide-left
 ---
 
-<img
-  class="rounded-full w-64 h-64 mt-0 justify-self-center"
-  src="https://avatars.githubusercontent.com/u/16144158?v=4"
-  alt="Ethan Arrowood"
-/>
+<div class="grid grid-cols-2">
+  <div class="col-span-2 max-h-min">
+    <img src="./images/Harper-Logo.png" class="mx-auto w-auto h-48 mb-4" alt="Harper Logo" />
+  </div>
 
-<div class="text-center">
-  <h2>Ethan Arrowood</h2>
-  <h3>Senior Software Engineer</h3>
-  <a href="https://ethanarrowood.com">ethanarrowood.com</a>
-  <br />
-  <a href="https://linkedin.com/in/ethan-arrowood">linkedin.com/in/ethan-arrowood</a>
+  <div class="text-center">
+    <img
+      class="rounded-full w-32 h-32 mx-auto"
+      src="https://avatars.githubusercontent.com/u/16144158?v=4"
+      alt="Ethan Arrowood"
+    />
+    <h2>Ethan Arrowood</h2>
+    <h3>Senior Software Engineer</h3>
+    <a href="https://ethanarrowood.com">ethanarrowood.com</a>
+    <br />
+    <a href="https://linkedin.com/in/ethan-arrowood">linkedin.com/in/ethan-arrowood</a>
+  </div>
+  <div  class="text-center">
+    <img
+      class="rounded-full w-32 h-32 mx-auto"
+      src="https://avatars.githubusercontent.com/u/11778717?v=4"
+      alt="Austin Akers"
+    />
+    <h2>Austin Akers</h2>
+    <h3>Developer Experience Engineer</h3>
+    <a href="https://austinakers.com">austinakers.com</a>
+    <br />
+    <a href="https://www.linkedin.com/in/austin-akers-b1966765/">linkedin.com/in/austin-akers-b1966765</a>
+  </div>
 </div>
-
-::right::
-
-<img
-  class="rounded-full w-64 h-64 mt-0 justify-self-center"
-  src="https://avatars.githubusercontent.com/u/11778717?v=4"
-  alt="Austin Akers"
-/>
-
-<h2 class="text-center">Austin Akers</h2>
-<h3 class="text-center">Developer Experience Engineer</h3>
-
-<!-- Each of us introduce ourselves. Include titles.
-Whoever is kicking off should start with a transition along the lines of: "Lets get into it!" -->
-
 ---
 
 <img src="./images/harper-simplified-architecture.png" />
@@ -109,31 +110,40 @@ transition: slide-left
 
 <!-- TODO: improve design of this slide -->
 
-<!-- <div class="grid grid-cols-4 gap-4 mt-16 text-center">
-<div>
-Develop
-</div>
-<div>
-  Build
-</div>
-<div>
-  Deploy
+
+<div class="grid grid-cols-7 gap-4 mt-16 text-center">
+  <v-clicks every="2">
+  <div class="hidden">
   </div>
-<div>
-  Run
+  <div>
+    <span class="text-4xl">👨🏾‍💻</span>
+    <p class="text-2xl font-semibold">Develop</p>
   </div>
-</div> -->
+  <div>
+  <span class="text-4xl my-auto">→</span>
+  </div>
+  <div>
+    <span class="text-4xl">🏗️</span>
+    <p class="text-2xl font-semibold">Build</p>
+  </div>
+  <div>
+  <span class="text-4xl">→</span>
+  </div>
+  <div>
+    <span class="text-4xl">🚀</span>
+    <p class="text-2xl font-semibold">Deploy</p>
+  </div>
+  <div>
+  <span class="text-4xl">→</span>
+  </div>
+  <div>
+    <span class="text-4xl">⚡️</span>
+    <p class="text-2xl font-semibold">Run</p>
+  </div>
+  </v-clicks>
+</div>
 
 <!-- either or - goal: display each step one at a time on the same slide. -->
-
-<v-clicks>
-
-- Develop
-- Build
-- Deploy
-- Run
-
-</v-clicks>
 
 <!--
 So, we came up with a high-level framework to dictate what it means to support Next.js.
@@ -178,14 +188,14 @@ transition: slide-up
 
 <v-clicks>
 
-- Hot Module Reloading
-  - _Instant feedback loop where code changes are reflected in the browser without a full page reload._
-- Fast Refresh
-  - _Preserves component state throughout refreshes, allowing for a smoother development experience._
-- Error Overlay
-  - _Displays errors and warnings in the browser, making it easier to debug issues._
-- Dev-Tools Integration
-  - _Displays errors and warnings in the browser, making it easier to debug issues._
+- <h2 class="font-medium">Hot Module Reloading</h2>
+  - <i>Instant feedback loop where code changes are reflected in the browser without a full page reload.</i>
+- <h2 class="font-medium mt-4">Fast Refresh</h2>
+  - <i>Preserves component state throughout refreshes, allowing for a smoother development experience.</i>
+- <h2 class="font-medium mt-4">Error Overlay</h2>
+  - <i>Displays errors and warnings in the browser, making it easier to debug issues.</i>
+- <h2 class="font-medium mt-4">Dev-Tools Integration</h2>
+  - <i>Displays errors and warnings in the browser, making it easier to debug issues.</i>
 
 </v-clicks>
 
@@ -368,13 +378,18 @@ layout: center
 transition: slide-left
 ---
 
+<!-- TODO: Insert a small recording / gif of our CLI kicking off and starting up both Harper and the Next.js dev server in a terminal 
+note: might have to simplify the Harper output a bit - it seems to be spitting out some other info that isn't relevant to this example.
+-->
+
 # Lastly, `harperdb-nextjs dev`
 
-<!-- TODO: Insert a small recording / gif of our CLI kicking off and starting up both Harper and the Next.js dev server in a terminal -->
+<img class="mx-auto" src="./images/working-jim-carrey.gif" />
 
 <!-- 
-"Since Harper is a complete platform, and we run their application within the Harper process, we created our own CLI experience "
-"It is quite simple, but it is important that it bootstraps Harper and ensures the right environment is set up for Next.js development (including enabling the HMR support!)."
+Since we run Next.js within the Harper process, we created our own CLI experience.
+
+It is quite simple, but importantly it bootstraps Harper and ensures the right environment is set up for Next.js dev server.
 -->
 
 ---
@@ -383,6 +398,10 @@ layout: section
 ---
 
 # Build
+
+<!-- 
+Next up in our framework is "Build"
+ -->
 
 ---
 layout: center
@@ -394,10 +413,11 @@ transition: slide-up
 <img src="./images/Build-Flow-Chart-High-Level.png" />
 
 <!--
-The next step in our framework is to support building Next.js apps
+The next step in our framework is to support _building_ Next.js apps
+
 This was where our CLI experience really started to take shape
-Just like the `next dev` command, we created a `harperdb-nextjs build` command that would run the Next.js build process and then cleanly exit
-Since Harper is a whole platform, we needed to ensure the system was started up, the build ran, and then the process exited cleanly
+
+Just like the `next dev` command, we created a `harperdb-nextjs build` command that would run the Next.js build operation within the Harper process, and then cleanly exit
 -->
 
 ---
@@ -409,9 +429,14 @@ transition: slide-up
 <img src="./images/File-Lock-Flow-Chart.png" />
 
 <!-- 
-Given that Harper is a single process, multi-threaded platform, we needed to ensure that the build process was isolated.
+Given that Harper is a single-process, multi-threaded platform, we needed to ensure that the build process was isolated.
+(Why build the same app multiple times on the same machine, right?)
+
 Threads in Harper generally all do the same thing unless we specify otherwise.
+
 We are actively improving this experience, but at the beginning we created a custom file-based thread locking mechanism to ensure that only one thread would run the build process.
+
+This solution worked pretty well, and this flow diagram documents how it works
 -->
 
 ---
@@ -419,9 +444,9 @@ layout: center
 transition: slide-left
 ---
 
-<!-- Consider starting the Deploy section here? This is definitely the best transition -->
-
 # Build artifacts add up quickly!
+
+<!-- TODO: style this slide better - particularly the bullet points at the bottom. Maybe have them appear on click? -->
 
 <img src="./images/bruce-almighty.gif" />
 
@@ -429,10 +454,13 @@ transition: slide-left
 - Build on instance (`harperdb deploy`) 
 
 <!-- 
-Unlike serverless platforms that treat each build and deployment as a unit of work, Harper is a long running process.
+Unlike serverless platforms that treat each build and deployment as an independent unit, Harper instances are long running, serverfull processes.
+
 We couldn't really provide the same ephemeral build experience without completely filling up our users's Harper instances with build artifacts.
+
 So instead, at least for now, we kept things simple. Builds can happen either locally or remotely, but they will always override what is currently running.
-And this leads us to the next step in our framework: Deploy.
+
+And this leads us to the next step in our framework: ...
  -->
 
 ---
@@ -441,9 +469,6 @@ transition: slide-up
 ---
 
 # Deploy
-<!--
-Naturally, after development its time to get your application live
--->
 
 ---
 layout: center
@@ -454,7 +479,11 @@ transition: slide-up
 
 <img class="w-sm" src="./images/Clustering-Replication.png"/>
 
-<!-- In our production systems we often cluster and replicate Harper instances across regions. -->
+<!--
+Production Harper systems are often clustered and replicated across regions.
+
+This is a major performance and reliability feature of the platform.
+-->
 
 ---
 layout: center
@@ -464,11 +493,13 @@ transition: slide-up
 # Rolling Deployments
 
 <!--
-Since we don't really fit into the regular serverless model, we had to come up with a way to deploy applications without disrupting production.
-You wouldn't want your entire database to be reset every time you deployed your web app, right?
-So, we utilize a rolling deployment system. And the best part this isn't even unique to just Next.js.
-The entire Harper platform uses this same technique to as part of its replication system to distribute operations across the network.
+So, since we don't really fit into the regular serverless model of ephemeral deployments, we had to come up with a way to deploy applications without disrupting production.
 
+You wouldn't want your entire database to be reset every time you deployed your web app, right?
+
+Integrating with our clustering and replication process, we utilize a rolling deployment system. And the best part is this isn't even unique to just Next.js.
+
+The entire Harper platform uses this technique to distribute operations across the network.
 -->
 
 ---
@@ -523,6 +554,8 @@ transition: slide-left
 
 # `harperdb deploy`
 
+<img class="mx-auto" src="./images/blast-off.gif" />
+
 <!-- 
 And like we said, this isn't just for Next.js applications.
 
@@ -545,7 +578,7 @@ transition: slide-up
 
 # _No_, we still aren't using `next start`
 
-<!-- Maybe funny Gif here? -->
+<img class="mx-auto" src="./images/kenan-thompson-nope.gif" />
 
 ---
 layout: center
@@ -669,6 +702,8 @@ transition: slide-up
 
 # ... One issue
 
+<img class="mx-auto" src="./images/stitch.gif" />
+
 <!-- But unfortunately, as cool as this custom routing idea is, we actually ran into a pretty difficult limitation -->
 
 ---
@@ -704,7 +739,9 @@ transition: slide-left
 
 # Next.js is fine with this...
 
-Some React dependencies aren't unfortunately
+## Just, _some_ React dependencies aren't unfortunately
+
+<img src="./images/elmo-shrug.gif" />
 
 <!-- 
 Now luckily Next.js itself is not affected, but some application dependencies do.
@@ -752,9 +789,38 @@ layout: section
 ## You can self-host Next.js, but it’s more than just `next start`
 
 ---
-layout: image
-image: /images/Harper-Logo.png
-backgroundSize: contain
+transition: slide-left
 ---
+
+<div class="grid grid-cols-2">
+  <div class="col-span-2 max-h-min">
+    <img src="./images/Harper-Logo.png" class="mx-auto w-auto h-48 mb-4" alt="Harper Logo" />
+  </div>
+
+  <div class="text-center">
+    <img
+      class="rounded-full w-32 h-32 mx-auto"
+      src="https://avatars.githubusercontent.com/u/16144158?v=4"
+      alt="Ethan Arrowood"
+    />
+    <h2>Ethan Arrowood</h2>
+    <h3>Senior Software Engineer</h3>
+    <a href="https://ethanarrowood.com">ethanarrowood.com</a>
+    <br />
+    <a href="https://linkedin.com/in/ethan-arrowood">linkedin.com/in/ethan-arrowood</a>
+  </div>
+  <div  class="text-center">
+    <img
+      class="rounded-full w-32 h-32 mx-auto"
+      src="https://avatars.githubusercontent.com/u/11778717?v=4"
+      alt="Austin Akers"
+    />
+    <h2>Austin Akers</h2>
+    <h3>Developer Experience Engineer</h3>
+    <a href="https://austinakers.com">austinakers.com</a>
+    <br />
+    <a href="https://www.linkedin.com/in/austin-akers-b1966765/">linkedin.com/in/austin-akers-b1966765</a>
+  </div>
+</div>
 
 <!-- Thank you! -->
