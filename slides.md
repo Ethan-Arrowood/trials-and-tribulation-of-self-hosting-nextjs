@@ -1,25 +1,11 @@
 ---
-# You can also start simply with 'default'
 theme: default
-# random image from a curated Unsplash collection by Anthony
-# like them? see https://unsplash.com/collections/94734566/slidev
-# background: https://cover.sli.dev
-background: ./images/harper-background.jpg
-# some information about your slides (markdown enabled)
+background: /images/harper-background.jpg
 title: Trials and Tribulations of Self-Hosting Next.js
 info: By Ethan Arrowood and Austin Akers
-# apply unocss classes to the current slide
 class: text-center
-# https://sli.dev/features/drawing
-drawings:
-  persist: false
-# slide transition: https://sli.dev/guide/animations.html#slide-transitions
 transition: slide-left
-# enable MDC Syntax: https://sli.dev/features/mdc
 mdc: true
-# open graph
-# seoMeta:
-#  ogImage: https://cover.sli.dev
 ---
 
 # Trials and Tribulations of Self-Hosting Next.js
@@ -27,79 +13,158 @@ mdc: true
 By Ethan Arrowood and Austin Akers
 
 ---
-layout: two-cols-header
+transition: slide-left
 ---
 
-# Who we are
+<div class="grid grid-cols-2">
+  <div class="col-span-2 max-h-min">
+    <img src="./images/Harper-Logo.png" class="mx-auto w-auto h-48 mb-4" alt="Harper Logo" />
+  </div>
 
-::left::
+  <div class="text-center">
+    <img
+      class="rounded-full w-32 h-32 mx-auto"
+      src="https://avatars.githubusercontent.com/u/16144158?v=4"
+      alt="Ethan Arrowood"
+    />
+    <h2>Ethan Arrowood</h2>
+    <h3>Senior Software Engineer</h3>
+    <a href="https://ethanarrowood.com">ethanarrowood.com</a>
+    <br />
+    <a href="https://linkedin.com/in/ethan-arrowood">linkedin.com/in/ethan-arrowood</a>
+  </div>
+  <div  class="text-center">
+    <img
+      class="rounded-full w-32 h-32 mx-auto"
+      src="https://avatars.githubusercontent.com/u/11778717?v=4"
+      alt="Austin Akers"
+    />
+    <h2>Austin Akers</h2>
+    <h3>Developer Experience Engineer</h3>
+    <a href="https://austinakers.com">austinakers.com</a>
+    <br />
+    <a href="https://www.linkedin.com/in/austin-akers-b1966765/">linkedin.com/in/austin-akers-b1966765</a>
+  </div>
+</div>
+---
 
-<img
-  class="rounded-full w-32 h-32 mb-4"
-  src="https://ethanarrowood.com/_astro/carrying_lincoln_cropped.Bsqiu0N-_hBO9Y.webp"
-  alt="Ethan Arrowood"
-/>
-## Ethan Arrowood
+<img src="./images/harper-simplified-architecture.png" />
 
-::right::
-
-<img
-  class="rounded-full w-32 h-32 mb-4"
-  src="https://avatars.githubusercontent.com/u/11778717?v=4"
-  alt="Austin Akers"
-/>
-## Austin Akers
+<!--
+Harper is a serverfull, all-in-one Node.js platform with full file system access, an embedded database, networking middleware system, and application hosting support.
+It is built on top of Node.js and operates in a single process, using worker threads for performance, and leverages clustering and replication for production scaling.
+The whole platform works together to provide an high performance, easy to use, enterprise-grade development experience.
+-->
 
 ---
-layout: intro
+layout: fact
+transition: slide-left
 ---
 
-# Overview
+<h2>Harper<s>DB</s></h2>
+<h3><a href="https://harpersystems.dev">harpersystems.dev</a></h3>
 
-- 🎨 **Next.js on Harper**
-- 🧑‍💻 **Dev Mode Support**
-  <!-- WebSocket connection handling. Harper middleware system. -->
-- 🧩 **Version Compatibility**
-  <!-- Fairly simple section, but highlight how we use dynamic imports. Throw in there the like high-level idea of using 
-  defensive code patterns to support backwards compatibility. We can particularly highlight that we had to demonstrate 
-  compatibility with old Next.js versions just as a function of business. And then point to the exact line where we made 
-  sure to defensively check that the dynamically imported Next server actually had the websocket/devmode hooks that we needed. -->
-- 🏘️ **Multi-Zone Next.js**
-  <!-- While relevant to deployments too, this is particularly about how Harper is 
-  itself a platform and thus the working directory may not able available to be set to the Next project. 
-  Next itself is fine with this, but not all dependencies are. i.e. react-storefront -->
-  <!-- I originally called this section Working Directory, but rather than highlighting what could be interpreted as a limitation
-  of harper, I'm switching it to multi-zone so that we are highlighting yet another feature! -->
-- 🚀 **Deployment Experience**
-  <!-- Build mode support, analyzing the build output before pushing to production. integration with CI systems. 
-  We can talk about Harper's particular component application deployment process, but relate it back to the expected 
-  default experience for deploying Next.js i.e. Vercel and Netlify's default experience. ANd how we emulated that. -->
-- 🗄️ **Custom Cache Handling**
-  <!-- We actually didn't totally do this meaning we didn't add a custom Next.js cache handler (which is apart of the 
-  Next.js server api). But as a platform we did investigate and add support for general request caching. i.e. plain http 
-  request caching. harperdb/http-cache module. If time permits we can go into this part, but can also omit since we haven't 
-  actually solved it or fully implemented it yet. May just be good to mention as like what we want to do next! -->
+<!--
+You may have known us as HarperDB previously, recently we rebranded and our now entirely Harper! You may still see "HarperDB" floating around though as we slowly update the name across all our systems
+-->
+
+---
+
+<img src="./images/nextjs-org.png" />
+
+<!--
+- Next.js is a full-stack react framework for building modern web applications.
+- It uses common patterns like server-side rendering, static site generation, and client-side rendering to provide a flexible and powerful development experience.
+- But Next.js is more than just what it can create. The entire development experience from prototyping to production is what makes Next.js so powerful.
+ -->
+
+---
+layout: center
+transition: slide-left
+---
+
+# Hosting Next.js is surprisingly difficult
+
+<img class="mx-auto" src="./images/math-lady.gif" />
+
+<!--
+Hosting Next.js is surprisingly difficult
+-->
+
+---
+layout: center
+transition: slide-left
+---
+
+# Its much more than just `next start`
+
+<!--
+Our goal was not just to host Next.js apps, but provide a holistic Next.js application development experience
+-->
+
+---
+transition: slide-left
+---
+
+# Supporting Next.js
+
+<!-- TODO: improve design of this slide -->
+
+
+<div class="grid grid-cols-7 gap-4 mt-16 text-center">
+  <v-clicks every="2">
+  <div class="hidden">
+  </div>
+  <div>
+    <span class="text-4xl">👨🏾‍💻</span>
+    <p class="text-2xl font-semibold">Develop</p>
+  </div>
+  <div>
+  <span class="text-4xl my-auto">→</span>
+  </div>
+  <div>
+    <span class="text-4xl">🏗️</span>
+    <p class="text-2xl font-semibold">Build</p>
+  </div>
+  <div>
+  <span class="text-4xl">→</span>
+  </div>
+  <div>
+    <span class="text-4xl">🚀</span>
+    <p class="text-2xl font-semibold">Deploy</p>
+  </div>
+  <div>
+  <span class="text-4xl">→</span>
+  </div>
+  <div>
+    <span class="text-4xl">⚡️</span>
+    <p class="text-2xl font-semibold">Run</p>
+  </div>
+  </v-clicks>
+</div>
+
+<!-- either or - goal: display each step one at a time on the same slide. -->
+
+<!--
+So, we came up with a high-level framework to dictate what it means to support Next.js.
+- First, "Develop"
+- Then, "Build"
+- Next, "Deploy"
+- Finally, "Run"
+
+Let's dive in!
+-->
 
 ---
 layout: section
+transition: slide-up
 ---
 
-# 🎨 Next.js on Harper
+# Develop
 
-Next.js is a React framework that enables server-side rendering and static site generation for React applications. It is designed to make building production-ready applications easier and faster.
-
----
-layout: section
----
-
-# 🧑‍💻 Dev Mode Support
-
-Dev Mode === Developer Experience
-
-<!-- 
-  As discussed in the previous section, Harper is a complete, full-stack application platform.
-  As we integrated Next.js we wanted to ensure a quality developer experience. 
-  Next.js' dev mode is a critical part of that experience.
+<!--
+The first aspect of our framework is "Develop".
+For us, this meant providing parity with Next's excellent developer experience
 -->
 
 ---
@@ -107,172 +172,180 @@ layout: center
 transition: slide-up
 ---
 
-# What is _Dev Mode_?
+# `next dev`
+
+<!--
+For most developers the first part of Next.js they interact with is the `next dev` command 
+-->
+
+---
+transition: slide-up
+---
+
+# Dev Mode
+
+<v-clicks>
+
+- <h2 class="font-medium">🔥 Hot Module Reloading</h2>
+  - <i>Instant feedback loop where code changes are reflected in the browser without a full page reload.</i>
+- <h2 class="font-medium mt-4">💨 Fast Refresh</h2>
+  - <i>Preserves component state throughout refreshes, allowing for a smoother development experience.</i>
+- <h2 class="font-medium mt-4">⛔️ Error Overlay</h2>
+  - <i>Displays errors and warnings in the browser, making it easier to debug issues.</i>
+- <h2 class="font-medium mt-4">🛠️ Dev-Tools Integration</h2>
+  - <i>Displays errors and warnings in the browser, making it easier to debug issues.</i>
+
+</v-clicks>
+
+<!-- 
+This encapsulates "Dev Mode" and is the core to Next's excellent developer experience.
+-->
 
 ---
 layout: center
 transition: slide-up
 ---
 
-# Hot Module Reloading
+# 🔎 Hot Module Reloading
 
-_Instant feedback loop where code changes are reflected in the browser without a full page reload._
+<!-- 
+Today, we are going to highlight Hot Module Reloading.
+This aspect is powered by WebSockets, and was one of the more difficult parts to integrate into Harper.
+-->
+
+---
+transition: slide-up
+layout: image
+image: /images/HMR-Sequence-Diagram.png
+backgroundSize: contain
+---
+
+<!-- _walk through flow diagram step by step_ -->
 
 ---
 layout: center
 transition: slide-up
 ---
 
-# Fast Refresh
+# What is a WebSocket?
 
-_Preserves component state throughout refreshes, allowing for a smoother development experience._
+<!-- TODO: Keep this brief. Maybe just do the Request/Response HTTP snippets (use the code line highlighter to focus on the `Upgrade & Connection` parts) 
+-->
+
+```http {none|1-8|1-3|4-5|10-13|6-8,14-15|all}{lines:true}
+# Request
+GET /_next/webpack-hmr HTTP/1.1
+Host: localhost:9926
+Upgrade: websocket
+Connection: upgrade
+Sec-WebSocket-Version: 13
+Sec-WebSocket-Key: *****
+Sec-Websocket-Protocol: hmr
+
+# Response
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: upgrade
+Sec-WebSocket-Accept: *****
+Sec-WebSocket-Protocol: hmr
+```
+
+<!--
+(Click through the code snippet to highlight the key parts as these bullets are read)
+- But what is a websocket?
+- WebSockets enable full duplex communication between client and server, allowing for real-time data exchange, without the need of HTTP request polling.
+- The request starts as a regular HTTP GET Request
+- That includes the special Upgrade and Connection headers
+- The server responds with a 101 Switching Protocols response
+- And there may be additional `Sec-WebSocket-*` headers for additional security and protocol information
+- Once established, the connection remains open, allowing for continuous data exchange without the overhead of HTTP request polling.
+ -->
 
 ---
 layout: center
 transition: slide-up
 ---
 
-# Error Overlay
+# Harper's networking middleware
 
-_Displays errors and warnings in the browser, making it easier to debug issues._
+```js {1-3|5,11,17|5-9|11-15|17-23}{lines:true }
+server.socket((socket) => {
+  /* Same as net.createServer() */
+}, { port: 1234 });
+
+server.http((req, next) => {
+  if (req.url === 'ping') return { status: 200, body: 'pong' };
+
+  return next(req);
+});
+
+server.ws((ws, req, chainCompletion, next) => {
+  if (req.url === '/ping') ws.send('pong');
+
+  return next(ws, req, chainCompletion);
+});
+
+server.upgrade((req, socket, head, next) => {
+  if (req.url === '/_next/webpack-hmr') {
+    // Handle the WebSocket upgrade for HMR
+  }
+
+  return next(req, socket, head);
+}, { runFirst: true });
+
+
+```
+
+<!--
+"Remember Harper's architecture diagram? We have a highly extensible networking middleware system"
+"This system allows us to hook into the request/response lifecycle and do custom HTTP upgrade and WebSocket connection handling"
+- We enable creating a fully custom TCP socket server with `server.socket()` (which is similar to Node.js' `net.createServer()`)
+- Then we have 3 middleware methods, `http`, `ws`, and `upgrade`.
+- The `http` method is used to handle regular HTTP requests, we have an embedded HTTP server that can be hooked into, but you can also specify the `port` property to create a new HTTP server.
+- The `ws` method is used to handle WebSocket connections, and it allows us to handle WebSocket messages and events. Similarly, we have a default, but a custom port can be specified too.
+- Finally, the `upgrade` method is used to handle WebSocket upgrades, which is what we need for Next.js' Hot Module Reloading.
+  - You'll noticed on this example we are using the `runFirst` option, which allows us to run this middleware before any other WebSocket middleware (for the default WS connection).
+- This networking API allows developers to create highly customized networking solutions, and it is the foundation for our Next.js support.
+-->
+
+---
+layout: center
+transition: slide-up
+---
+
+# Next.js Server API
+
+```javascript {all|1-6|8|10-12}{lines:true}
+import next from 'next';
+
+const app = next({
+  dir: 'path/to/app',
+  dev: true
+});
+
+await app.prepare();
+
+const requestHandler = app.getRequestHandler();
+
+const upgradeHandler = app.getUpgradeHandler();
+```
+
+
+<!--
+- And like we said at the beginning, supporting Next.js is much more than just `next start`.
+- It isn't very well known, but Next.js has a server API that allows for programmatic control over the server.
+- It isn't too complex, basically after importing the `next` package, you can create a Next.js server instance by calling the imported function
+  - It has a number of options, but for right now we are only interested in the `dir` and `dev` options.
+- Then you can call `await app.prepare()` to prepare the application
+- Finally, you can get the request handler and upgrade handler by calling `app.getRequestHandler()` and `app.getUpgradeHandler()`, respectively.
+-->
 
 ---
 layout: center
 transition: slide-left
 ---
 
-# Dev-Tools Integration
-
-_Component inspection, performance profiling, and more._
-
----
-layout: center
----
-
-# 🔑 Improved developer experience
-
-<!-- Again, the key to all of this is improving developer experience -->
-
----
-layout: center
----
-
-# 🔎 Hot Module Reloading
-
-<!-- Today, we are going to focus on the Hot Module Reloading part and how we leveraged Harper's server middleware api to forward the necessary WebSocket requests through to the Next.js dev server -->
-
----
-layout: center
----
-
-```mermaid {scale: 0.6}
-sequenceDiagram
-  participant b as Browser
-  participant s as Dev Server
-  participant f as File System
-  s -->> f: Watch Web App Source Files
-  b ->> s: Request App
-  s ->> b: Send App with HMR Injected
-  b ->> b: Render App
-  b -->> s: Establish WebSocket connection for HMR
-  loop Hot Module Reload
-    f -->> s: File change detected
-    s -->> b: Send update event to Browser
-    b ->> s: Request update data
-    s ->> b: Send update data
-  end
-  b ->> b: Render updates
-```
-
-<!-- Go through the diagram step by step. Starting from the top -->
-
----
-layout: center
----
-
-# 🕸️ The WebSocket API 🔌
-
-- RFC 6455 (first published December 2011)
-- Enables real-time communication **without** traditional HTTP polling
-- Client sends a HTTP upgrade request to the server
-  ```http
-  GET /_next/webpack-hmr HTTP/1.1
-  Host: localhost:3000
-  Upgrade: websocket
-  Connection: upgrade
-  Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
-  Sec-WebSocket-Version: 13
-  ```
-- Server responds with a `101 Switching Protocols` response
-  ```http
-  HTTP/1.1 101 Switching Protocols
-  Upgrade: websocket
-  Connection: upgrade
-  Sec-WebSocket-Accept: dGhlIHNhbXBsZSBub25jZQ==
-  ```
-- Once established, the WebSocket connection allows for full-duplex communication (over the same TCP connection)
-  - _full-duplex_ means both client and server can send messages independently
-  - 👩‍💼📞👨‍💼 Similar to people talking on the phone, both can speak and listen at the same time
-
-<!-- Note: maybe diagram here? Important to describe that WS works via HTTP Upgrade Request and then the two way connection is established -->
-
----
-layout: center
----
-
-# Remember: Harper is an integrated platform
-It has its own HTTP and WebSocket support.
-
----
-
-# Harper Server API
-
-```javascript
-// Custom TCP socket handling (similar to `net.createServer`)
-server.socket(connectionListener, options);
-
-// Custom HTTP request handling 
-server.http(requestListener, options);
-
-// Custom HTTP upgrade handling
-server.upgrade(upgradeListener, options);
-
-// Custom WebSocket connection handling
-server.ws(webSocketConnectionListener, options);
-```
-
-These methods allow developers to define custom handlers for various networking operations, enabling the creation of custom protocols or the integration of existing ones.
-
-<!-- Similar to other Node middlewares, the Harper server API allows you to define custom handlers for specific networking operations -->
-
----
-
-# Next.js Server API
-
-Most users only ever interact with Next.js through the `next` CLI (i.e. `next dev`, `next build`, `next start`).
-
-However, Next.js can be used programmatically too!
-
-```javascript {all|11-12}
-// As of Next.js v13, v14, and v15:
-import next from 'next';
-
-const app = next({ dev: true });
-
-await app.prepare();
-
-const requestHandler = app.getRequestHandler();
-// type RequestHandler = (req: IncomingMessage, res: ServerResponse, parsedUrl?: any) => Promise<void>;
-
-const upgradeHandler = app.getUpgradeHandler();
-// type UpgradeHandler = (req: IncomingMessage, socket: any, head: any) => Promise<void>;
-```
-
-<!-- Unfortunately, its not well documented, but the important parts are... And the part we are going to focus on is this method, getUpgradeHandler -->
-
----
-
-# 🏗️ All together now...
+# Putting it all together
 
 ```javascript {1-5,13|6,10|7-9|12}
 // Next.js upgrade handler
@@ -289,222 +362,489 @@ server.upgrade((req, socket, head, next) => {
   return next(req, socket, head);
 }, { runFirst: true });
 ```
-
-<!-- 
+<!--
 1. Get the upgrade handler from Next.js and setup the Harper upgrade handler.
   a. Use the `runFirst` option to ensure that the Next.js upgrade handler runs first.
 2. Then inspect the request URL to see if it matches the Webpack HMR endpoint.
 3. If it does, call the Next.js upgrade handler to upgrade the connection.
   b. There is some additional nuance to this that I'm glossing over here, but the key is that even after upgrading its important to call `next` so that additional middleware can run.
 4. And if it  doesn't match, just call `next` to continue processing the upgrade request.
+-->
+
+--- 
+layout: center
+transition: slide-left
+---
+
+<!-- TODO: Insert a small recording / gif of our CLI kicking off and starting up both Harper and the Next.js dev server in a terminal 
+note: might have to simplify the Harper output a bit - it seems to be spitting out some other info that isn't relevant to this example.
+-->
+
+# Lastly, `harperdb-nextjs dev`
+
+<img class="mx-auto" src="./images/working-jim-carrey.gif" />
+
+<!-- 
+Since we run Next.js within the Harper process, we created our own CLI experience.
+
+It is quite simple, but importantly it bootstraps Harper and ensures the right environment is set up for Next.js dev server.
+-->
+
+---
+transition: slide-up
+layout: section
+---
+
+# Build
+
+<!-- 
+Next up in our framework is "Build"
  -->
 
 ---
 layout: center
+transition: slide-up
 ---
 
-# 🎉
+# `harperdb-nextjs build`
 
-Harper can simultaneously handle the Next.js dev server WebSocket requests as well as any other WebSocket requests that the Harper server is handling.
+<img src="./images/Build-Flow-Chart-High-Level.png" />
 
-<!-- Maybe a diagram here? -->
+<!--
+The next step in our framework is to support _building_ Next.js apps
 
-<!-- And just like that, we have enabled hot module reloading for Next.js dev mode! Short demo video maybe? -->
+This was where our CLI experience really started to take shape
+
+Just like the `next dev` command, we created a `harperdb-nextjs build` command that would run the Next.js build operation within the Harper process, and then cleanly exit
+-->
 
 ---
+transition: slide-up
+---
 
-# 🧩 Version Compatibility
+# Thread-safe build process
 
-- Dynamic imports
-- Defensive code patterns
-- Backwards compatibility
-- WebSocket and dev mode hooks
-- Harper middleware system
-- HarperDB HTTP cache module
+<img src="./images/File-Lock-Flow-Chart.png" />
+
+<!-- 
+Given that Harper is a single-process, multi-threaded platform, we needed to ensure that the build process was isolated.
+(Why build the same app multiple times on the same machine, right?)
+
+Threads in Harper generally all do the same thing unless we specify otherwise.
+
+We are actively improving this experience, but at the beginning we created a custom file-based thread locking mechanism to ensure that only one thread would run the build process.
+
+This solution worked pretty well, and this flow diagram documents how it works
+-->
+
+---
+layout: two-cols
+transition: slide-left
+---
+
+## Build artifacts add up quickly!
+
+<!-- TODO: style this slide better - particularly the bullet points at the bottom. Maybe have them appear on click? -->
+
+<div class="mt-8">
+<v-clicks>
+<div class="my-2">
+
+- Local Builds (`prebuilt: true`)
+</div>
+<div class="my-2">
+
+- Build on instance (`harperdb deploy`)
+</div>
+
+</v-clicks>
+</div>
+
+::right::
+
+<img src="./images/bruce-almighty.gif" />
+
+
+<!-- 
+Unlike serverless platforms that treat each build and deployment as an independent unit, Harper instances are long running, serverfull processes.
+
+We couldn't really provide the same ephemeral build experience without completely filling up our users's Harper instances with build artifacts.
+
+So instead, at least for now, we kept things simple. Builds can happen either locally or remotely, but they will always override what is currently running.
+
+And this leads us to the next step in our framework: ...
+ -->
+
+---
+layout: section
+transition: slide-up
+---
+
+# Deploy
 
 ---
 layout: center
+transition: slide-up
 ---
 
-# 🏘️ Multi-Zone Next.js
+# Clustering & Replication
 
----
-layout: image-right
-image: /images/multi-zone-stacked.png
-backgroundSize: contain
----
+<img class="w-sm" src="./images/Clustering-Replication.png"/>
 
-# What is Multi-Zone Next.js?
+<!--
+Production Harper systems are often clustered and replicated across regions.
 
-An architecture where a singular application is implemented as multiple, distinct Next.js applications.
-- Each part (or zone) is a separate Next.js application
-- Each zone can be developed, built, and deployed independently
-- Combined, they create a cohesive user experience
-- Traditionally, required multiple hosts and performance-sensitive hard navigation
-- However, Harper can handle multiple Next.js applications simultaneously!
+This is a major performance and reliability feature of the platform.
+-->
 
 ---
 layout: center
+transition: slide-up
 ---
 
-# How?
+# Rolling Deployments
 
-Well first... a little background on Harper's architecture.
+<!--
+So, since we don't really fit into the regular serverless model of ephemeral deployments, we had to come up with a way to deploy applications without disrupting production.
 
----
-layout: image-right
-image: /images/harper-worker-threads.png
-backgroundSize: contain
----
+You wouldn't want your entire database to be reset every time you deployed your web app, right?
 
-# Harper uses Worker Threads
+Integrating with our clustering and replication process, we utilize a rolling deployment system. And the best part is this isn't even unique to just Next.js.
 
-- Harper, like the Node.js runtime its built on, is **single-process**
-- For performance, Harper uses **worker threads** to parallelize operations
-- Each thread runs the same collection of server middleware
-- Requests are distributed across threads
-- All threads **share the same working directory**
+The entire Harper platform uses this technique to distribute operations across the network.
+-->
 
 ---
 layout: image
-image: /images/harper-applications.png
+image: /images/Rolling-Deploys-1.png
 backgroundSize: contain
+transition: fade
 ---
 
-<!-- # Harper supports Multi-Zone Next.js
-
-- With Next.js' ability to execute any app as long as you provide the complete application directory
-- And Harper's performant, and highly configurable server middleware system
-- Harper can easily run multiple, distinct Next.js applications simultaneously
-- Multi Zone Next.js requires special configuration (`assetPrefix` and `rewrites` options in `next.config.js`) -->
+<!-- Given a new application deployment, it can be deployed to any one of the available clusters -->
 
 ---
-layout: center
----
-
-# _What's the catch?_
-
----
-layout: center
----
-
-# Next.js and the process **working directory**.
-
----
-layout: center
----
-
-# What is a _working directory_?
-
-A working directory is the file system location where a **process** executes from.
-
-<img src="./images/working-directory.png" />
-
-Node.js is a single-process runtime; thus, it has a singular working directory (`process.cwd()`).
-
-<!-- Many operations will use this by default. For example, path resolution in many Node.js apis will transform the period character to the current working directory. -->
-
----
-layout: image-right
-image: /images/next-process-execution.png
+layout: image
+image: /images/Rolling-Deploys-2.png
 backgroundSize: contain
+transition: fade
 ---
 
-# Next.js Execution
+<!-- Whichever cluster is first will execute the build and deploy sequence, and then replicate it to another node -->
 
-Happens twice...
+---
+layout: image
+image: /images/Rolling-Deploys-3.png
+backgroundSize: contain
+transition: fade
+---
 
-1. **Built Time** (`next build`): application source code is compiled and optimized into the `.next` directory
-2. **Run Time** (`next start`): the Next.js server process serves the application from the `.next` directory
+<!-- As the deploy operation is replicated across the instances, production disruption is greatly minimized -->
 
-The **working directory** for these two steps can be *the same or different*. 
+---
+layout: image
+image: /images/Rolling-Deploys-4.png
+backgroundSize: contain
+transition: fade
+---
 
-<!-- A Next.js app can even be built on one machine, and deployed and run on another! (this is generally referred to as prebuilt mode). There is some nuance to this (like if you are using native dependencies). But in essence, as long as the entirety of the Next app is kept together, it should be executable. -->
+<!-- Once all the node receive the update, the operation completes -->
+
+---
+layout: image
+image: /images/Rolling-Deploys-5.png
+backgroundSize: contain
+transition: slide-up
+---
+
+<!-- And the application is fully deployed! -->
 
 ---
 layout: center
+transition: slide-left
 ---
 
-# Next.js doesn't care about the working directory, as long as *all necessary files* are present in the application directory.
+# `harperdb deploy`
+
+<img class="mx-auto" src="./images/blast-off.gif" />
+
+<!-- 
+And like we said, this isn't just for Next.js applications.
+
+Harper already had this replication and clustering system in place for other operations, so we were able to leverage it to create a positive Next.js application deployment experience.
+-->
 
 ---
+layout: section
+transition: slide-up
+---
 
-# Next.js Server API
+# Run
 
-```javascript
-import next from 'next';
+<!-- Finally, the app is build and deployed, now its time to run it! -->
 
-const app = next({
-  dir: '/path/to/nextjs-app'
+---
+layout: center
+transition: slide-up
+---
+
+# _No_, we still aren't using `next start`
+
+<img class="mx-auto" src="./images/kenan-thompson-nope.gif" />
+
+---
+layout: center
+transition: slide-up
+---
+
+Next.js Server API and Harper HTTP Middleware
+
+```javascript {1-6|8-11|13-21|all}{lines:true}
+const componentPath = 'path/to/app';
+const routesManifestPath = path.join(
+  componentPath, '.next', 'routes-manifest.json');
+const app = next({ dir: componentPath });
+
+await app.prepare();
+
+const requestHandler = app.getRequestHandler();
+
+const routes = JSON.parse(
+  await fs.promises.readFile(routesManifestPath, 'utf8'));
+
+server.http((request, next) => {
+  return matchRoutes(routes, request.url)
+    ? requestHandler(
+        request._nodeRequest,
+        request._nodeResponse,
+        url.parse(request._nodeRequest.url, true)
+      )
+    : next(request);
 });
 ```
 
-The `dir` option must be set to the **directory containing the Next.js application**. This is the directory that contains:
-- The Next.js build output (`.next` directory)
-- Configuration files (`package.json`, `next.config.js`, `.env`, etc.)
-- Any external dependencies (`node_modules`)
-
-The *working directory* of the process running the Next.js server *should* not matter as long as the `dir` option is set correctly.
-
-<!-- Furthermore... the Next.js server API demonstrates this even more clearly. -->
-
----
-layout: center
----
-
-# Here is the problem...
+<!-- 
+So just like we used the Next.js Server API to handle WebSocket upgrades, we can also use it to run the application.
+- Start by setting up the `app` instance
+- Get the `requestHandler` and the routes information
+- And then hook into Harper's HTTP middleware system
+This example is overly simplified, but the jist is that we delegate the request handling to Next.js and it just works!
+ -->
 
 ---
 layout: center
+transition: slide-up
 ---
 
-# Some dependencies **rely** on `process.cwd()` to resolve paths. 🤦‍♂️
+# Version Compatibility
+
+```javascript {1|3-4|6-8|all}{lines:true}
+import { createRequire } from 'node:module';
+
+const appPath = 'path/to/app';
+const appRequire = createRequire(applicationPath);
+
+const nextImport = await import(appRequire.resolve('next'));
+
+const next = nextImport.default || nextImport;
+
+const app = next({ dir: appPath });
+// ...
+```
+
+<!--
+Next.js has many versions, and honestly it takes a lot of time for users to migrate and upgrade.
+It was imperative we support multiple versions of Next.js.
+And it turns out, Next prefers that the same version of it is used to run the app that is used to build it.
+So we leverage Node.js' dynamic import system to load the Next.js version that is installed in the application.
+- It isn't too complicated, using the `createRequire` function we can create a require function that is scoped to the application directory.
+- This lets us resolve the Next.js package sort of like how a regular import would work
+- Then we use a dynamic import to load the Next.js package
+- Finally, we can create the Next.js app instance and do all the other hooks
+This code has enabled us to dynamically support many major Next.js versions!
+-->
+
+---
+layout: center
+transition: slide-up
+---
+
+# Multi-Zone support
+(a.k.a. micro-frontends)
+
+<!--
+We probably sound like a broken record at this point, but Harper isn't your isolated, serverless environment host.
+Thus, we have the ability to run multiple applications in the same process, and this naturally lead us to exploring support for Next.js multi-zone applications also known as micro-frontends.
+
+This pattern has mixed feelings, but it is very popular in Enterprise companies.
+ -->
 
 ---
 layout: image
-image: /images/harper-applications.png
+image: /images/Multi-Zone-Architecture.png
 backgroundSize: contain
+transition: slide-up
 ---
 
-<!-- And so if we look back at this diagram of Harper's middleware system. Remember that we are simply using the Next.js server API, 
-but if either (or worse, both) of these apps require the working directory to run... then we have a fundamental issue! -->
+<!-- 
+Multi-Zone is basically multiple separate Next.js applications. Traditionally deployed across multiple hosts.
+As requests come in, they will be routed to the appropriate application through Next.js' assetPrefix and redirects configuration options.
+ -->
+
+---
+layout: image
+image: /images/Multi-Zone-Flow-Chart.png
+backgroundSize: contain
+transition: slide-up
+---
+
+<!-- 
+But since Harper can run all three apps simultaneously on the same server, we have experimented with custom routing.
+Similar to the HTTP handler we had earlier, where we import the routes manifest and use within the http middleware,
+one idea we had was if we know the routes for each application, we could in theory just structure the middleware to route requests based on successful matches.
+And if the first middleware doesn't match, it passes it along until the end.
+
+This is very similar to how Next.js generally handles multi-zone routing, but ideally we can decrease the amount of "hard-navigation" that has to happen.
+-->
 
 ---
 layout: center
----
-
-# Unfortunately, we haven't quite solved this yet 👷‍♂️🧰
-But the most performant Multi-Zone Next.js apps on Harper don't rely on the working directory!
-
-<!-- If an app requires the working directory we just have to revert back to the traditional hosting architecture. -->
-
----
-transition: slide-right
----
-
-## Deployment Experience
-- Build mode support
-- Analyzing the build output
-- Integration with CI systems
-- Harper's component application deployment process
-- Vercel and Netlify's default experience
-- Emulating that experience
-
----
 transition: slide-up
 ---
 
-## Custom Cache Handling
-- HarperDB HTTP cache module
-- General request caching
-- Next.js cache handler
-- Future work
-- What we want to do next
+# ... One issue
+
+<img class="mx-auto" src="./images/stitch.gif" />
+
+<!-- But unfortunately, as cool as this custom routing idea is, we actually ran into a pretty difficult limitation -->
 
 ---
+layout: center
 transition: slide-up
 ---
 
-## Conclusion
-- Trials and tribulations of self-hosting Next.js
+# The Working Directory Problem
 
+<!-- 
+Generally, its assumed that the working directory whenever you build or run a Next.js app is the app source directory itself.
+
+This is most common during development, and is also how many hosts work.
+ -->
+
+---
+layout: center
+transition: slide-up
+---
+
+# Single Process... Single Working Directory
+
+<!--
+One of the biggest limitations of being a single process platform is that we have a single working directory.
+
+And in the multi-zone case, where there are multiple distinct Next.js applications, this **can** be a problem.
+-->
+
+---
+layout: center
+transition: slide-left
+---
+
+# Next.js is fine with this...
+
+## Just, _some_ React dependencies aren't unfortunately
+
+<img src="./images/elmo-shrug.gif" />
+
+<!-- 
+Now luckily Next.js itself is not affected, but some application dependencies do.
+
+We haven't really found a workaround for this, but its generally avoidable with good application design and implementation
+ -->
+
+---
+layout: section
+transition: slide-left
+---
+
+# What's Next?
+
+---
+layout: center
+transition: slide-up
+---
+
+# Routing Improvements
+HTTP Middleware, Multi-Zone, and more
+
+---
+layout: center
+transition: slide-up
+---
+
+# Custom Cache Handler
+Not just HTTP request caching, but also Next.js' internal cache
+
+<!-- 
+Harper has caching baked in, we provide the high level http request caching, but we want to improve and dig deeper by hooking into Next.js' internal cache system and integrate with our embedded database. Our early experiments have shown this is can lead to a major performance improvement!
+ -->
+
+---
+layout: center
+transition: slide-up
+---
+
+# Abstractions for other frameworks
+How can we supercharge Astro, Svelte, Vue, and more?
+
+---
+layout: section
+---
+
+# Dev → Build → Deploy → Run
+
+## You can self-host Next.js, but it’s more than just `next start`
+
+<!-- 
+In summary, remember that this framework we came up with is for supporting Next.js holistically.
+
+We wanted to not just run Next.js apps, but provide a full development experience.
+
+You too can self-host Next.js, but it is more than just running `next start`.
+ -->
+
+---
+transition: slide-left
+---
+
+<div class="grid grid-cols-2">
+  <div class="col-span-2 max-h-min">
+    <img src="./images/Harper-Logo.png" class="mx-auto w-auto h-48 mb-4" alt="Harper Logo" />
+  </div>
+
+  <div class="text-center">
+    <img
+      class="rounded-full w-32 h-32 mx-auto"
+      src="https://avatars.githubusercontent.com/u/16144158?v=4"
+      alt="Ethan Arrowood"
+    />
+    <h2>Ethan Arrowood</h2>
+    <h3>Senior Software Engineer</h3>
+    <a href="https://ethanarrowood.com">ethanarrowood.com</a>
+    <br />
+    <a href="https://linkedin.com/in/ethan-arrowood">linkedin.com/in/ethan-arrowood</a>
+  </div>
+  <div  class="text-center">
+    <img
+      class="rounded-full w-32 h-32 mx-auto"
+      src="https://avatars.githubusercontent.com/u/11778717?v=4"
+      alt="Austin Akers"
+    />
+    <h2>Austin Akers</h2>
+    <h3>Developer Experience Engineer</h3>
+    <a href="https://austinakers.com">austinakers.com</a>
+    <br />
+    <a href="https://www.linkedin.com/in/austin-akers-b1966765/">linkedin.com/in/austin-akers-b1966765</a>
+  </div>
+</div>
+
+<!-- Thank you! -->
