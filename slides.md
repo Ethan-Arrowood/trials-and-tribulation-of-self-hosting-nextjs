@@ -184,17 +184,15 @@ transition: slide-up
 
 # Dev Mode
 
-<!-- TODO: Improve design of this slide -->
-
 <v-clicks>
 
-- <h2 class="font-medium">🔥Hot Module Reloading</h2>
+- <h2 class="font-medium">🔥 Hot Module Reloading</h2>
   - <i>Instant feedback loop where code changes are reflected in the browser without a full page reload.</i>
-- <h2 class="font-medium mt-4">💨Fast Refresh</h2>
+- <h2 class="font-medium mt-4">💨 Fast Refresh</h2>
   - <i>Preserves component state throughout refreshes, allowing for a smoother development experience.</i>
-- <h2 class="font-medium mt-4">⛔️Error Overlay</h2>
+- <h2 class="font-medium mt-4">⛔️ Error Overlay</h2>
   - <i>Displays errors and warnings in the browser, making it easier to debug issues.</i>
-- <h2 class="font-medium mt-4">🛠️Dev-Tools Integration</h2>
+- <h2 class="font-medium mt-4">🛠️ Dev-Tools Integration</h2>
   - <i>Displays errors and warnings in the browser, making it easier to debug issues.</i>
 
 </v-clicks>
@@ -786,6 +784,10 @@ transition: slide-up
 # Custom Cache Handler
 Not just HTTP request caching, but also Next.js' internal cache
 
+<!-- 
+Harper has caching baked in, we provide the high level http request caching, but we want to improve and dig deeper by hooking into Next.js' internal cache system and integrate with our embedded database. Our early experiments have shown this is can lead to a major performance improvement!
+ -->
+
 ---
 layout: center
 transition: slide-up
@@ -801,6 +803,14 @@ layout: section
 # Dev → Build → Deploy → Run
 
 ## You can self-host Next.js, but it’s more than just `next start`
+
+<!-- 
+In summary, remember that this framework we came up with is for supporting Next.js holistically.
+
+We wanted to not just run Next.js apps, but provide a full development experience.
+
+You too can self-host Next.js, but it is more than just running `next start`.
+ -->
 
 ---
 transition: slide-left
